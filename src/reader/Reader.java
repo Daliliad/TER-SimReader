@@ -3,6 +3,7 @@ package reader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import utils.CellType;
 
@@ -34,7 +35,7 @@ public class Reader {
 		} catch (IOException e) {
 			return -1;
 		}
-		System.arraycopy(ByteBuffer.wrap(b).asIntBuffer().array(), 0, buff, 0, size);
+		ByteBuffer.wrap(b).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer().get(buff);
 		return 0;
 	}
 	
@@ -47,20 +48,24 @@ public class Reader {
 		length = buff[2];
 		nbStates = buff[3];
 		buff = new int[nbStates];
+		readNextInt(buff, nbStates);
 		colors = buff;
-		t = 0;
+		t = -1;
 	}
 	
 	public long getOffset(int t) {
-		return 4 + nbStates + (t) * width * length;
+		return (4 + nbStates + (t) * width * length) * 4;
 	}
 	
-	public int readNext(int[] matrice){
+	public int readNext(int[] matrice) throws IOException{
 		t++;
+		fis.getChannel().position(getOffset(t));
 		return readNextInt(matrice, width * length);
 	}
 	public int readPrevious(int[] matrice) throws IOException{
-		t--;
+		if(t > 0)
+			t--;
+		
 		fis.getChannel().position(getOffset(t));
 		return readNextInt(matrice, width * length);
 	}

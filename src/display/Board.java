@@ -19,8 +19,8 @@ public class Board extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	private CellType type = CellType.SQUARE;
-	private int width = 50;
-	private int length = 50;
+	private int width = 3;
+	private int length = 3;
 	private int zoom = 1;
 	private int x = 0;
 	private int y = 0;
@@ -32,6 +32,7 @@ public class Board extends JPanel{
 	}
 	
 	protected void paintComponent(Graphics g) {
+		super.paintComponent(g); 
 		Graphics2D g2d = (Graphics2D) g;
 		Dimension d = new Dimension();
 		this.getSize(d);
@@ -58,6 +59,22 @@ public class Board extends JPanel{
 		for(int i = 0; i < length; i++) {
 			g2d.drawLine(0, i*d.height/length, d.width, i*d.height/length);
 		}
+	}
+	
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public void setMatrice(int[] matrice) {
+		this.matrice = matrice;
+	}
+
+	public void setColors(int[] colors) {
+		this.colors = colors;
 	}
 	
 }
