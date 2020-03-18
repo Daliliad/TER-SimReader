@@ -18,7 +18,7 @@ public class Board extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private CellType type = CellType.SQUARE;
+	private CellType type = CellType.HEXAGONE;
 	private int width = 3;
 	private int length = 3;
 	private int zoom = 1;
@@ -36,7 +36,7 @@ public class Board extends JPanel{
 		Graphics2D g2d = (Graphics2D) g;
 		Dimension d = new Dimension();
 		this.getSize(d);
-		g2d.setStroke((Stroke) new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
+		g2d.setStroke((Stroke) new BasicStroke(0, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
 		if(type == CellType.SQUARE) {
 			if(matrice != null && matrice.length == width*length && colors != null)
 			{
@@ -46,6 +46,36 @@ public class Board extends JPanel{
 				}
 			}
 			drawCells(g2d);
+		}
+		else if(type == CellType.HEXAGONE) {
+			int xP[] = new int[6];
+			int yP[] = new int[6];
+			int xScale = d.width/(2*width+1);
+			int yScale = (int) (xScale/(Math.sqrt(3)));
+			if((yScale*3*length+1)>d.height) {
+				yScale=d.height/(3*length+1);
+				xScale=(int) (yScale*Math.sqrt(3));
+			}
+			yP[1]=(0*3)*yScale;
+			yP[2]=(0*3+1)*yScale;
+			for(int j = 0; j < length ; j++) {
+				yP[5]=yP[1];
+				yP[0]=yP[4]=yP[2];
+				yP[1]=yP[3]=(j*3+3)*yScale;
+				yP[2]=(j*3+4)*yScale;
+
+				xP[3]=(0*2+1-j%2)*xScale;
+				for(int i=0; i<width; i++) {
+					xP[0]=xP[1]=xP[3];
+					xP[2]=xP[5]=(i*2+1-j%2+1)*xScale;
+					xP[3]=xP[4]=(i*2+1-j%2+2)*xScale;
+
+					g2d.setColor(new Color(colors[matrice[j*width+i]]));
+					g2d.fillPolygon(xP,yP,6);
+					g2d.setColor(Color.black);
+					g2d.drawPolygon(xP, yP, 6);
+				}
+			}
 		}
 	}
 	
