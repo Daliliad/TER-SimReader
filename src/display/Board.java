@@ -47,7 +47,7 @@ public class Board extends JPanel{
 			{
 				for(int i = 0; i < matrice.length; i++) {
 					g2d.setColor(new Color(colors[matrice[i]]));
-					if(icones[matrice[i]]!=null)
+					if(d.width/width>15 && icones[matrice[i]]!=null)
 						g2d.drawImage(icones[matrice[i]],i%width*d.width/width, i/length*d.height/length, d.width/width, d.height/length,null);
 					else
 						g2d.fillRect(i%width*d.width/width, i/length*d.height/length, d.width/width, d.height/length);
@@ -79,7 +79,7 @@ public class Board extends JPanel{
 					xP[3]=xP[4]=(i*2+1-j%2+2)*xScale;
 					
 					g2d.setColor(new Color(colors[matrice[j*width+i]]));
-					if(icones[matrice[j*width+i]]!=null)
+					if(4*yScale>15 && icones[matrice[j*width+i]]!=null)
 						g2d.drawImage(icones[matrice[j*width+i]],xP[0],yP[5],2*xScale,4*yScale,null);
 					else
 						g2d.fillPolygon(xP,yP,6);
