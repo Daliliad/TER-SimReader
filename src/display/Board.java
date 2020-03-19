@@ -6,7 +6,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import utils.CellType;
@@ -26,6 +30,7 @@ public class Board extends JPanel{
 	private int y = 0;
 	private int[] matrice = {0,1,0,2,3,2,4,5,4};
 	private int[] colors = {Color.BLACK.getRGB(),Color.RED.getRGB(),Color.BLUE.getRGB(),Color.GREEN.getRGB(),Color.WHITE.getRGB(),Color.GRAY.getRGB()};
+	private BufferedImage[] icones;
 	
 	public Board() {
 		super();
@@ -42,7 +47,10 @@ public class Board extends JPanel{
 			{
 				for(int i = 0; i < matrice.length; i++) {
 					g2d.setColor(new Color(colors[matrice[i]]));
-					g2d.fillRect(i%width*d.width/width, i/length*d.height/length, d.width/width, d.height/length);
+					if(icones[matrice[i]]!=null)
+						g2d.drawImage(icones[matrice[i]],i%width*d.width/width, i/length*d.height/length, d.width/width, d.height/length,null);
+					else
+						g2d.fillRect(i%width*d.width/width, i/length*d.height/length, d.width/width, d.height/length);
 				}
 			}
 			drawCells(g2d);
@@ -69,9 +77,12 @@ public class Board extends JPanel{
 					xP[0]=xP[1]=xP[3];
 					xP[2]=xP[5]=(i*2+1-j%2+1)*xScale;
 					xP[3]=xP[4]=(i*2+1-j%2+2)*xScale;
-
+					
 					g2d.setColor(new Color(colors[matrice[j*width+i]]));
-					g2d.fillPolygon(xP,yP,6);
+					if(icones[matrice[j*width+i]]!=null)
+						g2d.drawImage(icones[matrice[j*width+i]],xP[0],yP[5],2*xScale,4*yScale,null);
+					else
+						g2d.fillPolygon(xP,yP,6);
 					g2d.setColor(Color.black);
 					g2d.drawPolygon(xP, yP, 6);
 				}
@@ -105,6 +116,27 @@ public class Board extends JPanel{
 
 	public void setColors(int[] colors) {
 		this.colors = colors;
+	}
+	
+	public void setCellType(CellType type) {
+		this.type=type;
+	}
+	
+	public void setIcones(String dir) {
+		icones = new BufferedImage[colors.length];
+		File f;
+		for(int i=0;i<icones.length;i++) {
+			try {
+				f = new File(dir+"/icones/"+i+".png");
+				if(f.exists())
+					icones[i] = ImageIO.read(f);
+				else
+					icones[i] = null;
+			} catch (IOException e) {
+				e.printStackTrace();
+				icones[i] = null;
+			}
+		}
 	}
 	
 }

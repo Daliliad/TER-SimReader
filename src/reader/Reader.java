@@ -36,6 +36,7 @@ public class Reader {
 			return -1;
 		}
 		ByteBuffer.wrap(b).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer().get(buff);
+		//ByteBuffer.wrap(b).asIntBuffer().get(buff);
 		return 0;
 	}
 	

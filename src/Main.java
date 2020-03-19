@@ -13,21 +13,27 @@ import reader.Reader;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		/*Reader r = new Reader("b");
+		Reader r = new Reader("traces/incendie/trace3.log");
+		//Reader r = new Reader("traces/jeuvie/b");
 		int matrice[] = new int[r.getLength()*r.getWidth()];
 		r.readNext(matrice);
-		int colors[] = r.getColors();*/
+		int colors[] = r.getColors();
+		for(int i=0;i<colors.length;i++) {
+			System.out.println(i+" : "+colors[i]);
+		}
 		JFrame frame = new JFrame();
 		Board b = new Board();
-		/*b.setWidth(r.getWidth());
+		b.setWidth(r.getWidth());
 		b.setLength(r.getLength());
+		b.setCellType(r.getCellType());
 		b.setColors(colors);
-		b.setMatrice(matrice);*/
+		b.setMatrice(matrice);
+		b.setIcones("traces/incendie/");
+		//b.setIcones("traces/jeuvie/");
 		JPanel buttons = new JPanel();
 		buttons.setSize(200, 50);
 		JButton prec = new JButton("prec.");
-		/*prec.addActionListener(new ActionListener() {
+		prec.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -40,23 +46,23 @@ public class Main {
 				b.revalidate();
 				b.repaint();
 			}
-		});*/
+		});
 		JButton suiv = new JButton("suiv.");
-		/*suiv.addActionListener(new ActionListener() {
+		suiv.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					r.readNext(matrice);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				b.setMatrice(matrice);
-				System.err.println(matrice.toString());
+				//System.err.println(matrice.toString());
 				b.revalidate();
 				b.repaint();
 			}
-		});*/
+		});
+		
 		buttons.add(prec);
 		buttons.add(suiv);
 		frame.add(b);
