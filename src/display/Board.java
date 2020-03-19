@@ -19,8 +19,8 @@ public class Board extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	private CellType type = CellType.SQUARE;
-	private int width = 3;
-	private int length = 3;
+	private int width = 100;
+	private int length = 100;
 	private int zoom = 1;
 	private int x = 0;
 	private int y = 0;
@@ -42,7 +42,7 @@ public class Board extends JPanel{
 			{
 				for(int i = 0; i < matrice.length; i++) {
 					g2d.setColor(new Color(colors[matrice[i]]));
-					g2d.fillRect(i%width*d.width/width, i/length*d.height/length, d.width/width, d.height/length);
+					g2d.fillRect(i%width*d.height/length+(d.width-d.height)/2, i/length*d.height/length, d.height/length, d.height/length);
 				}
 			}
 			drawCells(g2d);
@@ -53,11 +53,11 @@ public class Board extends JPanel{
 		Dimension d = new Dimension();
 		g2d.setColor(Color.black);
 		this.getSize(d);
-		for(int i = 0; i < width; i++) {
-			g2d.drawLine(i*d.width/width, 0, i*d.width/width, d.height);
+		for(int i = 0; i <= width; i++) {
+			g2d.drawLine(i*d.height/length+(d.width-d.height)/2, 0, i*d.height/length+(d.width-d.height)/2, d.height);
 		}
-		for(int i = 0; i < length; i++) {
-			g2d.drawLine(0, i*d.height/length, d.width, i*d.height/length);
+		for(int i = 0; i <= length; i++) {
+			g2d.drawLine((d.width-d.height)/2, i*d.height/length, d.width-(d.width-d.height)/2, i*d.height/length);
 		}
 	}
 	
