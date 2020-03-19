@@ -48,9 +48,9 @@ public class Board extends JPanel{
 				for(int i = 0; i < matrice.length; i++) {
 					g2d.setColor(new Color(colors[matrice[i]]));
 					if(d.width/width>15 && icones[matrice[i]]!=null)
-						g2d.drawImage(icones[matrice[i]],i%width*d.width/width, i/length*d.height/length, d.width/width, d.height/length,null);
+						g2d.drawImage(icones[matrice[i]],i%width*d.height/length+(d.width-d.height)/2, i/length*d.height/length, d.width/width, d.height/length,null);
 					else
-						g2d.fillRect(i%width*d.width/width, i/length*d.height/length, d.width/width, d.height/length);
+						g2d.fillRect(i%width*d.height/length+(d.width-d.height)/2, i/length*d.height/length, d.width/width, d.height/length);
 				}
 			}
 			drawCells(g2d);
@@ -94,11 +94,11 @@ public class Board extends JPanel{
 		Dimension d = new Dimension();
 		g2d.setColor(Color.black);
 		this.getSize(d);
-		for(int i = 0; i < width; i++) {
-			g2d.drawLine(i*d.width/width, 0, i*d.width/width, d.height);
+		for(int i = 0; i <= width; i++) {
+			g2d.drawLine(i*d.height/length+(d.width-d.height)/2, 0, i*d.height/length+(d.width-d.height)/2, d.height);
 		}
-		for(int i = 0; i < length; i++) {
-			g2d.drawLine(0, i*d.height/length, d.width, i*d.height/length);
+		for(int i = 0; i <= length; i++) {
+			g2d.drawLine((d.width-d.height)/2, i*d.height/length, d.width-(d.width-d.height)/2, i*d.height/length);
 		}
 	}
 	
