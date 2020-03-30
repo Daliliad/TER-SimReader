@@ -10,6 +10,7 @@ import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -130,7 +131,8 @@ public class Board extends JPanel{
 		File f;
 		for(int i=0;i<icones.length;i++) {
 			try {
-				f = new File(dir+"/icones/"+i+".png");
+				f = new File(Paths.get(Paths.get(dir).toAbsolutePath().toString(),
+                        i+".png").toString());
 				if(f.exists())
 					icones[i] = ImageIO.read(f);
 				else
