@@ -17,13 +17,8 @@ public enum Main {
     public void run() throws IOException {
         SimulData data = new SimulData();
         JFrame frame = new JFrame();
-        Board b = new Board();
-        b.setWidth(data.getWidth());
-        b.setLength(data.getLength());
-        b.setCellType(data.getCellType());
-        b.setColors(data.getColors());
-        b.setMatrice(data.getMatrice());
-        b.setIcones("traces/incendie/");
+        SimulBoard b = new SimulBoard();
+        b.resetBoard(data);
         //b.setIcones("traces/jeuvie/");
 
         JPanel texts = new JPanel();

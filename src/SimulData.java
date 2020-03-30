@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+import display.Board;
 import reader.Reader;
 import utils.CellType;
 
@@ -39,7 +40,6 @@ public class SimulData {
         reader.readNext(matrice);
     }
 
-    
     public int[] getMatrice() {
         return matrice;
     }
