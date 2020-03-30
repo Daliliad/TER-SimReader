@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-import reader.Reader;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -135,9 +133,6 @@ public class Bouton extends JPanel {
 
                 if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = chooser.getSelectedFile();
-                    //System.out.println(selectedFile.getAbsolutePath());
-                    //System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-                    //System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
                     try {
                         simul= new SimulData(selectedFile.getCanonicalPath());
                         board.resetBoard(simul);
@@ -156,6 +151,10 @@ public class Bouton extends JPanel {
             }
 
         });
+    }
+    
+    public void resetBoard() {
+        
     }
 
     public void traitement() {
