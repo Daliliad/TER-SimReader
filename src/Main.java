@@ -14,7 +14,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		  Reader r = new Reader("b");
+		  Reader r = new Reader("trace.log");
 		  int matrice[] = new int[r.getLength()*r.getWidth()];
 		  r.readNext(matrice);
 		  int colors[] = r.getColors();
