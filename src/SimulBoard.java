@@ -13,6 +13,7 @@ public class SimulBoard extends Board {
         this.setMatrice(data.getMatrice());
         this.revalidate();
         this.repaint();
+        this.setIcones("traces/incendie/");
     }
 
 }

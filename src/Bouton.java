@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import reader.Reader;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -20,16 +22,24 @@ public class Bouton extends JPanel {
     private JButton previous;
     private JButton next;
     private JButton select;
+    private JButton speed;
+    private JButton slow;
     private JTextPane logs;
+    private Timer timer;
+    private int timeInterval;
 
     public Bouton(SimulData sd, SimulBoard b, JTextPane l) throws IOException {
         this.simul = sd;
         this.board = b;
         this.logs = l;
+        timer = new Timer();
         playOrPause = new JButton("▶");
         next = new JButton("suiv.");
         previous = new JButton("prec.");
         select = new JButton("select.");
+        speed = new JButton("acc.");
+        slow = new JButton("dec.");
+        this.timeInterval = 1000;
 
         /*BufferedImage myPicture = ImageIO.read(new File(""));
        playOrPause = new JButton("Shopping", new ImageIcon(myPicture));*/
@@ -37,11 +47,9 @@ public class Bouton extends JPanel {
 
     public void playOrPauseClick() {
         playOrPause.addActionListener(new ActionListener() {
-            Timer timer = new Timer();
             @Override
             public void actionPerformed(ActionEvent e) {
                 int begin = 0;
-                int timeInterval = 1000;
                 Object source = e.getSource();
                 if (source instanceof JButton) {
                     if (playOrPause.getText().equals("▶")) {
@@ -93,6 +101,8 @@ public class Bouton extends JPanel {
             }
         });
     }
+    
+    
 
     public void prevClick() {
         previous.addActionListener(new ActionListener() {
@@ -107,6 +117,43 @@ public class Bouton extends JPanel {
                 board.setMatrice(simul.getMatrice());
                 board.revalidate();
                 board.repaint();
+            }
+        });
+    }
+    
+    public void speedUpClick() {
+        speed.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int test = timeInterval - 100;
+                if (test > 0) {
+                    timeInterval = timeInterval - 100;
+                    playOrPause.doClick();
+                    playOrPause.doClick();
+                }
+                else {
+                    String warning = "La vitesse est deja au maximum!";
+                    JOptionPane.showMessageDialog(new JFrame(), warning);
+                }
+            }
+        });
+    }
+    
+    public void slowDownClick() {
+        slow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int test = timeInterval + 100;
+                if (test < 60000) {
+                    timeInterval = timeInterval + 100;
+                    playOrPause.doClick();
+                    playOrPause.doClick();
+                }
+                else {
+                    String warning = "La vitesse est à 1 minutes par étape."
+                            + "\n Elle ne peut plus être diminuée.";
+                    JOptionPane.showMessageDialog(new JFrame(), warning);
+                }
             }
         });
     }
@@ -135,7 +182,12 @@ public class Bouton extends JPanel {
                     File selectedFile = chooser.getSelectedFile();
                     try {
                         simul= new SimulData(selectedFile.getCanonicalPath());
+                  
+                        if (playOrPause.getText().equals("❚❚")) {
+                            playOrPause.doClick();
+                        }
                         board.resetBoard(simul);
+                        timeInterval = 1000;
                         
                     } catch (IOException e1) {
                         String warning = "Le fichier spécifié n'existe pas!";
@@ -152,21 +204,22 @@ public class Bouton extends JPanel {
 
         });
     }
-    
-    public void resetBoard() {
-        
-    }
 
     public void traitement() {
         this.playOrPauseClick();
         this.prevClick();
         this.nextClick();
         this.selectClick();
-
+        this.speedUpClick();
+        this.slowDownClick();
+        
+        this.add(slow);
         this.add(previous);
         this.add(playOrPause);
         this.add(next);
-        this.add(select);  
+        this.add(speed);
+        this.add(select);
+        
     }
 
 }
