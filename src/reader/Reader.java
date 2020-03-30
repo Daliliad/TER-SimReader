@@ -37,6 +37,7 @@ public class Reader {
 		BufferedReader l;
 		String s;
 		System.out.println(Paths.get(Paths.get(path).toAbsolutePath().toString()));
+		System.out.println(Paths.get(path).toAbsolutePath().getParent().toString());
 		if((f = new File(
 				Paths.get(Paths.get(path).toAbsolutePath().getParent().toString(),
 						"logs.txt").toString())

@@ -66,6 +66,7 @@ public class Board extends JPanel{
 			}
 			yP[1]=(0*3)*yScale;
 			yP[2]=(0*3+1)*yScale;
+			System.out.println(4*yScale);
 			for(int j = 0; j < length ; j++) {
 				yP[5]=yP[1];
 				yP[0]=yP[4]=yP[2];

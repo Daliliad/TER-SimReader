@@ -22,7 +22,7 @@ import reader.Reader;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		Reader r = new Reader("traces/incendie/trace3.log");
+		Reader r = new Reader("traces/incendie/trace4.log");
 		//Reader r = new Reader("traces/jeuvie/b");
 		int matrice[] = new int[r.getLength()*r.getWidth()];
 		r.readNext(matrice);
@@ -43,9 +43,9 @@ public class Main {
 		JPanel texts = new JPanel();
 		JTextPane logs = new JTextPane();
 		logs.setMaximumSize(new Dimension(1000, 50));
-		logs.setText("test test test test \n"
+		/*logs.setText("test test test test \n"
 				+ "test test test test \n"
-				+ "test \n");
+				+ "test \n");*/
 		logs.setEditable(false);
 		JScrollPane scrlogs = new JScrollPane(logs);
 		scrlogs.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -143,7 +143,7 @@ public class Main {
 		frame.add(texts, BorderLayout.EAST);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
-		frame.setSize(1100, 600);
+		frame.setSize(1200, 700);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo( null );
 		frame.setVisible(true);
