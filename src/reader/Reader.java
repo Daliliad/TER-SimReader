@@ -51,9 +51,10 @@ public class Reader {
 			}
 		}
 		readHeader();
+		this.tmax = fis.available()/(width * length * 4);
 	}
-	
-	public int readNextInt(int[] buff, int size) throws IOException {
+
+    public int readNextInt(int[] buff, int size) throws IOException {
 		byte[] b = new byte[size*4];
 		if(fis.getChannel().size() - fis.getChannel().position() < size)
 			return -1;
@@ -96,14 +97,23 @@ public class Reader {
 		return readNextInt(matrice, width * length);
 	}
 	
-	
-	
 	public int readPrevious(int[] matrice) throws IOException{
 		if(t > 0)
 			t--;
 		
 		fis.getChannel().position(getOffset(t));
 		return readNextInt(matrice, width * length);
+	}
+	
+	public int readExactTime(int[] matrice, int time) throws IOException {
+	    if(time < 0 || time > tmax)
+	        return -1;
+	    if(time == this.t)
+	        return 0;
+	    
+	    this.t = time;
+	    fis.getChannel().position(getOffset(t));
+        return readNextInt(matrice, width * length);
 	}
 	
 	public boolean logExist(int line) {
@@ -145,6 +155,10 @@ public class Reader {
 	public int getT() {
 		return t;
 	}
+	
+	public int getTmax() {
+        return tmax;
+    }
 
 	public int[] getColors() {
 		return colors;
