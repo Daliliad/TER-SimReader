@@ -13,7 +13,7 @@ public enum Main {
         frame.setTitle(data.getReader().getPath());
 
         frame.setLayout(new BorderLayout());
-        frame.setPreferredSize(new Dimension(1280,600));
+        frame.setPreferredSize(new Dimension(1100,600));
         Dimension frameDimension = frame.getPreferredSize();
         int widthBoard = (int) (frameDimension.width*0.7);
 
