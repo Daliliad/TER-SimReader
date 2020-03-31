@@ -25,11 +25,7 @@ import reader.Reader;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-<<<<<<< Updated upstream
-		Reader r = new Reader("traces/incendie/trace3.log");
-=======
 		Reader r = new Reader("b");
->>>>>>> Stashed changes
 		//Reader r = new Reader("traces/jeuvie/b");
 		int matrice[] = new int[r.getLength()*r.getWidth()];
 		r.readNext(matrice);
@@ -49,16 +45,11 @@ public class Main {
 
 		JPanel texts = new JPanel();
 		JTextPane logs = new JTextPane();
-<<<<<<< Updated upstream
-		logs.setMaximumSize(new Dimension(1000, 50));
-		logs.setText("test test test test \n"
-=======
 		logs.setMaximumSize(new Dimension(1000, 500));
 		logs.setPreferredSize(new Dimension(1000, 500));
 		/*logs.setText("test test test test \n"
->>>>>>> Stashed changes
 				+ "test test test test \n"
-				+ "test \n");
+				+ "test \n");*/
 		logs.setEditable(false);
 		JScrollPane scrlogs = new JScrollPane(logs);
 		scrlogs.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -179,6 +170,7 @@ public class Main {
               //-------- A executer a chaque chargement de fichier --------//
         if(r.logExist(-1))
           infos.setText(r.getLog(-1));
+        frame.setTitle(r.getPath());
 		
 
 		frame.add(b);
