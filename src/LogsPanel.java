@@ -18,7 +18,7 @@ public class LogsPanel extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.setMaximumSize(new Dimension(1000, 525));
-        this.setPreferredSize(new Dimension(width, 525));
+        this.setPreferredSize(new Dimension(width, 455));
 
         initLogs(width);
         this.add(scrlogs);
@@ -34,13 +34,13 @@ public class LogsPanel extends JPanel {
         /*logs.setText("test test test test \n"
                 + "test test test test \n"
                 + "test \n");*/
-        logs.setPreferredSize(new Dimension(width, 425));
+        logs.setPreferredSize(new Dimension(width, 355));
         logs.setEditable(false);
 
         scrlogs = new JScrollPane(logs);
         scrlogs.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrlogs.setMaximumSize(new Dimension(1000, 150));
-        scrlogs.setPreferredSize(new Dimension(width, 425));
+        scrlogs.setPreferredSize(new Dimension(width, 355));
     }
 
     private void initInfos(int width) {

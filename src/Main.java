@@ -28,13 +28,12 @@ public enum Main {
         Dimension frameDimension = frame.getPreferredSize();
         int widthBoard = (int) (frameDimension.width*0.7);
 
-        SimulBoard b = new SimulBoard();
+        SimulBoard b = new SimulBoard(widthBoard);
         b.resetBoard(data);
-        b.setPreferredSize(new Dimension(widthBoard,490));
         //b.setIcones("traces/jeuvie/");
 
         /* LOGS */
-        LogsPanel texts = new LogsPanel(frameDimension.width-widthBoard);
+        LogsPanel texts = new LogsPanel(frameDimension.width-widthBoard-20);
 
         /* Buttons and Slider */
         VideoCommands videoCommands = new VideoCommands(data, b, texts, frameDimension.width);

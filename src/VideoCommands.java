@@ -36,6 +36,8 @@ public class VideoCommands extends JPanel {
     private JButton next;
     private JButton speed;
     private JButton slow;
+    private JButton zoomIn;
+    private JButton zoomOut;
 
     private Slider slider;
 
@@ -69,6 +71,8 @@ public class VideoCommands extends JPanel {
         previous = new JButton("<");
         speed = new JButton("acc.");
         slow = new JButton("dec.");
+        zoomIn = new JButton("+");
+        zoomOut = new JButton("-");
 
         previous.setMargin(new Insets(0, 0, 0, 0));
         previous.setPreferredSize(new Dimension(35,35));
@@ -80,10 +84,16 @@ public class VideoCommands extends JPanel {
         speed.setPreferredSize(new Dimension(40,35));
         slow.setMargin(new Insets(0, 0, 0, 0));
         slow.setPreferredSize(new Dimension(40,35));
+        zoomIn.setMargin(new Insets(0, 0, 0, 0));
+        zoomIn.setPreferredSize(new Dimension(35,35));
+        zoomOut.setMargin(new Insets(0, 0, 0, 0));
+        zoomOut.setPreferredSize(new Dimension(35,35));
 
         buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(frameWidth,50));
         buttons.setLayout(new FlowLayout());
+        buttons.add(zoomIn);
+        buttons.add(zoomOut);
         buttons.add(slow);
         buttons.add(previous);
         buttons.add(playOrPause);
@@ -100,9 +110,9 @@ public class VideoCommands extends JPanel {
                     if(simul.getReader().readExactTime(simul.getMatrice(), ((JSlider)event.getSource()).getValue()) != -1) {
                         if(simul.getReader().logExist(simul.getReader().getT()))
                             logs.addTextLogs(simul.getReader().getLog(simul.getReader().getT()));
-                        board.setMatrice(simul.getMatrice());
-                        board.revalidate();
-                        board.repaint();
+                        board.getBoard().setMatrice(simul.getMatrice());
+                        board.getBoard().revalidate();
+                        board.getBoard().repaint();
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -111,7 +121,7 @@ public class VideoCommands extends JPanel {
         });
     }
 
-    public void playOrPauseClick() {
+    private void playOrPauseClick() {
         playOrPause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -146,7 +156,7 @@ public class VideoCommands extends JPanel {
         });
     }
 
-    public void nextClick() {
+    private void nextClick() {
         next.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -169,7 +179,7 @@ public class VideoCommands extends JPanel {
 
 
 
-    public void prevClick() {
+    private void prevClick() {
         previous.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -187,7 +197,7 @@ public class VideoCommands extends JPanel {
         });
     }
 
-    public void speedUpClick() {
+    private void speedUpClick() {
         speed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -205,7 +215,7 @@ public class VideoCommands extends JPanel {
         });
     }
 
-    public void slowDownClick() {
+    private void slowDownClick() {
         slow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -220,6 +230,24 @@ public class VideoCommands extends JPanel {
                             + "\n Elle ne peut plus être diminuée.";
                     JOptionPane.showMessageDialog(new JFrame(), warning);
                 }
+            }
+        });
+    }
+    
+    private void zoomInClick() {
+        zoomIn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                board.getBoard().zoomIn();
+            }
+        });
+    }
+    
+    private void zoomOutClick() {
+        zoomOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                board.getBoard().zoomOut();
             }
         });
     }
@@ -248,6 +276,8 @@ public class VideoCommands extends JPanel {
         this.nextClick();
         this.speedUpClick();
         this.slowDownClick();
+        this.zoomInClick();
+        this.zoomOutClick();
 
         this.add(slider);
         this.add(buttons);

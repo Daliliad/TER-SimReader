@@ -30,70 +30,32 @@ public class Board extends JPanel{
 	private int zoom = 1;
 	private int x = 0;
 	private int y = 0;
-	private int[] matrice = {0,1,0,2,3,2,4,5,4};
-	private int[] colors = {Color.BLACK.getRGB(),Color.RED.getRGB(),Color.BLUE.getRGB(),Color.GREEN.getRGB(),Color.WHITE.getRGB(),Color.GRAY.getRGB()};
+	private int[] matrice;
+	private int[] colors;
 	private BufferedImage[] icones;
+	private Dimension caseDimension;
 	
 	public Board() {
 		super();
+		caseDimension = type.defDimension;
+        this.setPreferredSize();
 	}
 	
+	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g); 
+		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Dimension d = new Dimension();
 		this.getSize(d);
+		/*if(caseDimension == null) {
+            caseDimension = type.defautDimension(d, width, length);
+        }*/
 		g2d.setStroke((Stroke) new BasicStroke(1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
-		if(type == CellType.SQUARE) {
-			if(matrice != null && matrice.length == width*length && colors != null)
-			{
-				for(int i = 0; i < matrice.length; i++) {
-					g2d.setColor(new Color(colors[matrice[i]]));
-					if(d.width/width>15 && icones[matrice[i]]!=null)
-						g2d.drawImage(icones[matrice[i]],i%width*d.height/length+(d.width-d.height)/2, i/length*d.height/length, d.width/width, d.height/length,null);
-					else
-						g2d.fillRect(i%width*d.height/length+(d.width-d.height)/2, i/length*d.height/length, d.width/width, d.height/length);
-				}
-			}
-			drawCells(g2d);
-		}
-		else if(type == CellType.HEXAGONE) {
-			int xP[] = new int[6];
-			int yP[] = new int[6];
-			int xScale = d.width/(2*width+1);
-			int yScale = (int) (xScale/(Math.sqrt(3)));
-			if((yScale*3*length+1)>d.height) {
-				yScale=d.height/(3*length+1);
-				xScale=(int) (yScale*Math.sqrt(3));
-			}
-			yP[1]=(0*3)*yScale;
-			yP[2]=(0*3+1)*yScale;
-			//System.out.println(4*yScale);
-			for(int j = 0; j < length ; j++) {
-				yP[5]=yP[1];
-				yP[0]=yP[4]=yP[2];
-				yP[1]=yP[3]=(j*3+3)*yScale;
-				yP[2]=(j*3+4)*yScale;
-
-				xP[3]=(0*2+1-j%2)*xScale;
-				for(int i=0; i<width; i++) {
-					xP[0]=xP[1]=xP[3];
-					xP[2]=xP[5]=(i*2+1-j%2+1)*xScale;
-					xP[3]=xP[4]=(i*2+1-j%2+2)*xScale;
-					
-					g2d.setColor(new Color(colors[matrice[j*width+i]]));
-					if(4*yScale>15 && icones[matrice[j*width+i]]!=null)
-						g2d.drawImage(icones[matrice[j*width+i]],xP[0],yP[5],2*xScale,4*yScale,null);
-					else
-						g2d.fillPolygon(xP,yP,6);
-					g2d.setColor(Color.black);
-					g2d.drawPolygon(xP, yP, 6);
-				}
-			}
-		}
+		type.paintBoard(g2d, d, caseDimension, matrice, width, length, colors, icones);
 	}
 	
+	/*
 	private void drawCells(Graphics2D g2d) {
 		Dimension d = new Dimension();
 		g2d.setColor(Color.black);
@@ -105,13 +67,16 @@ public class Board extends JPanel{
 			g2d.drawLine((d.width-d.height)/2, i*d.height/length, d.width-(d.width-d.height)/2, i*d.height/length);
 		}
 	}
+	*/
 	
 	public void setWidth(int width) {
 		this.width = width;
+        this.setPreferredSize();
 	}
 
 	public void setLength(int length) {
 		this.length = length;
+        this.setPreferredSize();
 	}
 
 	public void setMatrice(int[] matrice) {
@@ -144,4 +109,24 @@ public class Board extends JPanel{
 		}
 	}
 	
+	public void zoomIn() {
+	    this.type.zoomIn(caseDimension);
+        this.setPreferredSize();
+	    this.revalidate();
+	    this.repaint();
+	}
+	
+	public void zoomOut() {
+        this.type.zoomOut(caseDimension);
+        this.setPreferredSize();
+        this.revalidate();
+        this.repaint();
+    }
+	
+	private void setPreferredSize() {
+	    Dimension boardDim = new Dimension(
+	            (int) ((width+0.5)*caseDimension.width)+1,
+                (int) (length*(caseDimension.height*3./4)+caseDimension.height*1./4)+1);
+        this.setPreferredSize(boardDim);
+	}
 }
