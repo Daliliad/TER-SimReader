@@ -5,12 +5,12 @@ import reader.Reader;
 import utils.CellType;
 
 public class SimulData {
-    private final Reader reader;
-    private final int[] matrice;
-    private final int[] colors;
-    private final int width;
-    private final int length;
-    private final CellType cellType;
+    private Reader reader;
+    private int[] matrice;
+    private int[] colors;
+    private int width;
+    private int length;
+    private CellType cellType;
     
     public SimulData() throws IOException {
         reader = new Reader("traces/incendie/trace3.log");
@@ -26,7 +26,7 @@ public class SimulData {
         reader.readNext(matrice);
     }
     
-    public SimulData(String path) throws IOException {
+    public void resetData(String path) throws IOException {
         reader = new Reader(path);
         matrice = new int[reader.getLength()*reader.getWidth()];
         colors = reader.getColors();

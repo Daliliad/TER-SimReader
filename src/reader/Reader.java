@@ -46,7 +46,12 @@ public class Reader {
 			logs = new HashMap<Integer, String>();
 			while((s = l.readLine()) != null) {
 				int i = 0;
-				while (i < s.length() && Character.isDigit(s.charAt(i))) i++;
+				boolean debut = true;
+				while (i < s.length() && 
+				        ((debut && s.charAt(i) == '-') || Character.isDigit(s.charAt(i)))) {
+				    i++;
+				    debut = false;
+				}
 				logs.put(Integer.parseInt(s.substring(0, i)), s.substring(i, s.length()));
 			}
 		}
