@@ -36,7 +36,7 @@ public class MenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                
                 chooser.setCurrentDirectory(new java.io.File("."));
-                chooser.setDialogTitle("Selectionner la trace à simuler");
+                chooser.setDialogTitle("Selectionner la trace a� simuler");
                 chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(null, "log");
                 chooser.setFileFilter(filter);
@@ -46,7 +46,7 @@ public class MenuBar extends JMenuBar {
                     try {
                         videoButton.newFile(selectedFile);
                     } catch (IOException e1) {
-                        String warning = "Le fichier spécifié n'existe pas!";
+                        String warning = "Le fichier specifie n'existe pas!";
                         JOptionPane.showMessageDialog(new JFrame(), warning);
                         //e1.printStackTrace();
                     } catch (ArithmeticException e2) {

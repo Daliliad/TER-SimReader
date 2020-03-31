@@ -1,7 +1,10 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,15 +12,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Pattern;
+
 import reader.Reader;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -36,6 +43,13 @@ public class VideoCommands extends JPanel {
     private JButton next;
     private JButton speed;
     private JButton slow;
+    private JButton changeSpeed;
+    private JButton begin;
+
+    private JTextField enterSpeed;
+    private JLabel ms;
+    
+    private JLabel descriptive; 
 
     private Slider slider;
 
@@ -49,6 +63,10 @@ public class VideoCommands extends JPanel {
         this.logs = l;
         timer = new Timer();
 
+        enterSpeed = new JTextField();
+        ms = new JLabel("ms");
+        descriptive = new JLabel("Le temps d'intervalle est de: 1000 ms");
+
         initButtons(frameWidth);
         initSlider(frameWidth);
 
@@ -56,7 +74,7 @@ public class VideoCommands extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         this.timeInterval = 1000;
-        
+
         logs.rebootLogs(simul.getReader().getLog(-1));
 
         /*BufferedImage myPicture = ImageIO.read(new File(""));
@@ -64,31 +82,42 @@ public class VideoCommands extends JPanel {
     }
 
     private void initButtons(int frameWidth) {
-        playOrPause = new JButton("▶");
+        playOrPause = new JButton("play");
         next = new JButton(">");
         previous = new JButton("<");
         speed = new JButton("acc.");
         slow = new JButton("dec.");
+        changeSpeed = new JButton("modif.");
+        begin = new JButton("debut");
 
         previous.setMargin(new Insets(0, 0, 0, 0));
         previous.setPreferredSize(new Dimension(35,35));
         playOrPause.setMargin(new Insets(0, 0, 0, 0));
-        playOrPause.setPreferredSize(new Dimension(35,35));
+        playOrPause.setPreferredSize(new Dimension(50,35));
         next.setMargin(new Insets(0, 0, 0, 0));
         next.setPreferredSize(new Dimension(35,35));
         speed.setMargin(new Insets(0, 0, 0, 0));
         speed.setPreferredSize(new Dimension(40,35));
         slow.setMargin(new Insets(0, 0, 0, 0));
         slow.setPreferredSize(new Dimension(40,35));
+        changeSpeed.setMargin(new Insets(0, 0, 0, 0));
+        changeSpeed.setPreferredSize(new Dimension(50,35));
+        begin.setMargin(new Insets(0, 0, 0, 0));
+        begin.setPreferredSize(new Dimension(45,35));
 
         buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(frameWidth,50));
         buttons.setLayout(new FlowLayout());
+        buttons.add(begin);
         buttons.add(slow);
         buttons.add(previous);
         buttons.add(playOrPause);
         buttons.add(next);
         buttons.add(speed);
+        buttons.add(enterSpeed);
+        buttons.add(ms);
+        buttons.add(changeSpeed);
+        buttons.add(descriptive);
     }
 
     private void initSlider(int frameWidth) {
@@ -118,8 +147,8 @@ public class VideoCommands extends JPanel {
                 int begin = 0;
                 Object source = e.getSource();
                 if (source instanceof JButton) {
-                    if (playOrPause.getText().equals("▶")) {
-                        playOrPause.setText("❚❚");
+                    if (playOrPause.getText().equals("play")) {
+                        playOrPause.setText("pause");
                         timer.schedule(new TimerTask() {
 
                             @Override
@@ -136,8 +165,8 @@ public class VideoCommands extends JPanel {
                                 slider.setValue(slider.getValue()+1);
                             }
                         }, begin, timeInterval);
-                    } else if (playOrPause.getText().equals("❚❚")) {
-                        playOrPause.setText("▶");
+                    } else if (playOrPause.getText().equals("pause")) {
+                        playOrPause.setText("play");
                         timer.cancel();
                         timer= new Timer();
                     }
@@ -194,6 +223,7 @@ public class VideoCommands extends JPanel {
                 int test = timeInterval - 100;
                 if (test > 0) {
                     timeInterval = timeInterval - 100;
+                    descriptive.setText("Le temps d'intervalle est de: " + timeInterval + " ms");
                     playOrPause.doClick();
                     playOrPause.doClick();
                 }
@@ -212,12 +242,13 @@ public class VideoCommands extends JPanel {
                 int test = timeInterval + 100;
                 if (test < 60000) {
                     timeInterval = timeInterval + 100;
+                    descriptive.setText("Le temps d'intervalle est de: " + timeInterval + " ms");
                     playOrPause.doClick();
                     playOrPause.doClick();
                 }
                 else {
-                    String warning = "La vitesse est à 1 minutes par étape."
-                            + "\n Elle ne peut plus être diminuée.";
+                    String warning = "La vitesse est a  1 minutes par etape."
+                            + "\n Elle ne peut plus etre diminuee.";
                     JOptionPane.showMessageDialog(new JFrame(), warning);
                 }
             }
@@ -227,7 +258,7 @@ public class VideoCommands extends JPanel {
     public void newFile(File selectedFile) throws IOException {
         simul.resetData(selectedFile.getCanonicalPath());
 
-        if (playOrPause.getText().equals("❚❚")) {
+        if (playOrPause.getText().equals("pause")) {
             playOrPause.doClick();
         }
         board.resetBoard(simul);
@@ -239,7 +270,55 @@ public class VideoCommands extends JPanel {
         logs.rebootLogs(simul.getReader().getLog(-1));
 
         ((Frame) this.getParent().getParent().getParent().getParent())
-            .setTitle(simul.getReader().getPath());
+        .setTitle(simul.getReader().getPath());
+    }
+
+    public void enterTime() {
+        enterSpeed.setColumns(4);
+        enterSpeed.setPreferredSize(new Dimension(35, 35));
+        TextPrompt tp = new TextPrompt("1000", enterSpeed);
+        tp.setForeground( Color.GRAY );
+        tp.changeStyle(Font.ITALIC + Font.BOLD);
+
+    }
+
+    public void changeSpeedClick() {
+        changeSpeed.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int val = Integer.parseInt(enterSpeed.getText());
+                    if (val > 0 && val < 60000) {
+                        timeInterval = Integer.parseInt(enterSpeed.getText());
+                        descriptive.setText("Le temps d'intervalle est de: " + timeInterval + " ms");
+                        playOrPause.doClick();
+                        playOrPause.doClick();
+                    } else if (val <= 0) {
+                        String warning = "Le temps d'intervalle est deja maximum!";
+                        JOptionPane.showMessageDialog(new JFrame(), warning);
+                    } else {
+                        String warning = "Le temps d'intervalle maximum est d'1 minute!";
+                        JOptionPane.showMessageDialog(new JFrame(), warning);
+                    } 
+                } catch (NumberFormatException e1) {
+                    timeInterval = 1000;
+                    descriptive.setText("Le temps d'intervalle est de: " + timeInterval + " ms");
+                }
+                System.out.println(timeInterval);
+            }
+        });
+    }
+    
+    public void beginClick() {
+        begin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                slider.setValue(0);
+                if (playOrPause.getText().equals("pause")) {
+                    playOrPause.doClick();
+                }
+            }
+        });
     }
 
     public void traitement() {
@@ -248,9 +327,13 @@ public class VideoCommands extends JPanel {
         this.nextClick();
         this.speedUpClick();
         this.slowDownClick();
+        this.enterTime();
+        this.changeSpeedClick();
+        this.beginClick();
 
         this.add(slider);
         this.add(buttons);
+       
     }
 
 }
