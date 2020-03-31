@@ -1,6 +1,5 @@
 import java.io.IOException;
 
-import display.Board;
 import reader.Reader;
 import utils.CellType;
 
@@ -13,7 +12,7 @@ public class SimulData {
     private CellType cellType;
     
     public SimulData() throws IOException {
-        reader = new Reader("traces/incendie/trace4.log");
+        reader = new Reader("traces/incendie/trace3.log");
         matrice = new int[reader.getLength()*reader.getWidth()];
         colors = reader.getColors();
         for(int i=0;i<colors.length;i++) {

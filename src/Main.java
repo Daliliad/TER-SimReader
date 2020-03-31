@@ -1,21 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
 
 public enum Main {
-
     MAIN;
 
     public void run() throws IOException {
@@ -24,7 +13,7 @@ public enum Main {
         frame.setTitle(data.getReader().getPath());
 
         frame.setLayout(new BorderLayout());
-        frame.setPreferredSize(new Dimension(1100,600));
+        frame.setPreferredSize(new Dimension(1280,600));
         Dimension frameDimension = frame.getPreferredSize();
         int widthBoard = (int) (frameDimension.width*0.7);
 
