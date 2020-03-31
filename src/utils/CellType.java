@@ -32,6 +32,15 @@ public enum CellType {
             }
         }
 
+        @Override
+        public Dimension getBoardDimension(int width, int length, Dimension cellDimension) {
+            Dimension boardDim = new Dimension(
+                    (width+1)*cellDimension.width,
+                    (length+1)*cellDimension.height);
+            return boardDim;
+        }
+
+
         /*
         @Override
         public Dimension defautDimension(Dimension panelDimension, int width, int length) {
@@ -99,6 +108,14 @@ public enum CellType {
             }
         }
 
+        @Override
+        public Dimension getBoardDimension(int width, int length, Dimension cellDimension) {
+            Dimension boardDim = new Dimension(
+                    (int) ((width+0.5)*cellDimension.width)+1,
+                    (int) (length*(cellDimension.height*3./4)+cellDimension.height*1./4)+1);
+            return boardDim;
+        }
+
         /*
         @Override
         public Dimension defautDimension(Dimension panelDimension, int width, int length) {
@@ -164,9 +181,12 @@ public enum CellType {
         this.maxDimension = max;
     }
 
+
     public abstract void paintBoard(Graphics2D g2d,
             Dimension panelDimension, Dimension caseDimension,
             int[] matrice, int width, int length, int[] colors, BufferedImage[] icones);
+
+    public abstract Dimension getBoardDimension(int width, int length, Dimension cellDimension);
     
     //public abstract Dimension defautDimension(Dimension panelDimension, int width, int length);
     

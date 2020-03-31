@@ -38,7 +38,6 @@ public class SimulBoard extends JPanel {
                 "icones").toString());
         System.out.println(Paths.get(Paths.get(data.getReader().getPath()).toAbsolutePath().getParent().toString(),
                 "icones").toString());
-        
         board.revalidate();
         board.repaint();
         

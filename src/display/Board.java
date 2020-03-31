@@ -89,6 +89,7 @@ public class Board extends JPanel{
 	
 	public void setCellType(CellType type) {
 		this.type=type;
+        this.setPreferredSize();
 	}
 	
 	public void setIcones(String dir) {
@@ -124,9 +125,6 @@ public class Board extends JPanel{
     }
 	
 	private void setPreferredSize() {
-	    Dimension boardDim = new Dimension(
-	            (int) ((width+0.5)*caseDimension.width)+1,
-                (int) (length*(caseDimension.height*3./4)+caseDimension.height*1./4)+1);
-        this.setPreferredSize(boardDim);
+        this.setPreferredSize(type.getBoardDimension(width, length, caseDimension));
 	}
 }
