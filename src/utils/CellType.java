@@ -16,10 +16,10 @@ public enum CellType {
                 int scale = caseDimension.height;
                 int xP = 0;
                 int yP = 0;
-                for(int i = 0; i < length; i++) {
-                    for(int j = 0; j < width; j++) {
-                        xP = j*scale;
-                        yP = i*scale;
+                for(int j = 0; j < length; j++) {
+                    for(int i = 0; i < width; i++) {
+                        xP = i*scale;
+                        yP = j*scale;
                         g2d.setColor(new Color(colors[matrice[j*width+i]]));
                         if(d.width/width>15 && icones[matrice[j*width+i]]!=null)
                             g2d.drawImage(icones[matrice[j*width+i]],xP,yP,scale,scale,null);
