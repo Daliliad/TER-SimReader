@@ -56,6 +56,8 @@ public class VideoCommands extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         this.timeInterval = 1000;
+        
+        logs.rebootLogs(simul.getReader().getLog(-1));
 
         /*BufferedImage myPicture = ImageIO.read(new File(""));
        playOrPause = new JButton("Shopping", new ImageIcon(myPicture));*/
