@@ -1,0 +1,14 @@
+6 Nombre de feux simultanés entre 5 et 10
+9 Nombre de feux simultanés entre 10 et 15
+10 Nombre de feux simultanés entre 15 et 20
+12 Nombre de feux simultanés entre 20 et 25
+16 Nombre de feux simultanés entre 25 et 30
+17 Nombre de feux simultanés entre 20 et 25
+18 Nombre de feux simultanés entre 15 et 20
+23 Nombre de feux simultanés entre 10 et 15
+25 Nombre de feux simultanés entre 5 et 10
+27 Nombre de feux simultanés entre 0 et 5
+28 Nombre de feux simultanés entre 5 et 10
+36 Nombre de feux simultanés entre 10 et 15
+37 Nombre de feux simultanés entre 5 et 10
+45 Nombre de feux simultanés entre 0 et 5
