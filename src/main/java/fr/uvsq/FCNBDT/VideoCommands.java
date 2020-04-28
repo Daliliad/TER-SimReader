@@ -1,3 +1,5 @@
+package fr.uvsq.FCNBDT;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -21,7 +23,8 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import display.Slider;
+
+import fr.uvsq.FCNBDT.display.Slider;
 
 public class VideoCommands extends JPanel {
     private SimulData simul;
@@ -146,7 +149,7 @@ public class VideoCommands extends JPanel {
 
     private void playOrPauseClick() {
         playOrPause.addActionListener(new ActionListener() {
-            @Override
+
             public void actionPerformed(ActionEvent e) {
                 int begin = 0;
                 Object source = e.getSource();
@@ -181,7 +184,7 @@ public class VideoCommands extends JPanel {
 
     private void nextClick() {
         next.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 /*try {
                     if(simul.getReader().readNext(simul.getMatrice()) != -1) {
@@ -204,7 +207,7 @@ public class VideoCommands extends JPanel {
 
     private void prevClick() {
         previous.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 /*try {
                     simul.getReader().readPrevious(simul.getMatrice());
@@ -222,7 +225,7 @@ public class VideoCommands extends JPanel {
 
     private void speedUpClick() {
         speed.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 int test = timeInterval - 100;
                 if (test > 0) {
@@ -243,7 +246,7 @@ public class VideoCommands extends JPanel {
 
     private void slowDownClick() {
         slow.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 int test = timeInterval + 100;
                 if (test < 60000) {
@@ -265,7 +268,7 @@ public class VideoCommands extends JPanel {
     
     private void zoomInClick() {
         zoomIn.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 board.getBoard().zoomIn();
             }
@@ -274,7 +277,7 @@ public class VideoCommands extends JPanel {
     
     private void zoomOutClick() {
         zoomOut.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 board.getBoard().zoomOut();
             }
@@ -310,7 +313,7 @@ public class VideoCommands extends JPanel {
 
     public void changeSpeedClick() {
         changeSpeed.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 try {
                     int val = Integer.parseInt(enterSpeed.getText());
@@ -339,7 +342,7 @@ public class VideoCommands extends JPanel {
     
     public void beginClick() {
         begin.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 if (playOrPause.getText().equals("pause")) {
                     playOrPause.doClick();

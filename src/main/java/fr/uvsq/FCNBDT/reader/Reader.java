@@ -1,4 +1,4 @@
-package reader;
+package fr.uvsq.FCNBDT.reader;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import utils.CellType;
+import fr.uvsq.FCNBDT.utils.CellType;
 
 public class Reader {
 	private String path;

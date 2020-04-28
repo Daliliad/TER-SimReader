@@ -1,3 +1,5 @@
+package fr.uvsq.FCNBDT;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -32,11 +34,10 @@ public class MenuBar extends JMenuBar {
         openFileMenu.addActionListener(new ActionListener() {
             JFileChooser chooser = new JFileChooser();
 
-            @Override
             public void actionPerformed(ActionEvent e) {
                
                 chooser.setCurrentDirectory(new java.io.File("."));
-                chooser.setDialogTitle("Selectionner la trace a  simuler");
+                chooser.setDialogTitle("Selectionner la trace aï¿½ simuler");
                 chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(null, "log");
                 chooser.setFileFilter(filter);

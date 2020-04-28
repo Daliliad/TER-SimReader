@@ -1,3 +1,5 @@
+package fr.uvsq.FCNBDT;
+
 import java.awt.Dimension;
 import java.nio.file.Paths;
 
@@ -5,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import display.Board;
+import fr.uvsq.FCNBDT.display.Board;
 
 public class SimulBoard extends JPanel {
     

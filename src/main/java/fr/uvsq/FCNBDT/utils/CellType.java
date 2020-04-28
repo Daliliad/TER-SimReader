@@ -1,4 +1,4 @@
-package utils;
+package fr.uvsq.FCNBDT.utils;
 
 import java.awt.Color;
 import java.awt.Dimension;

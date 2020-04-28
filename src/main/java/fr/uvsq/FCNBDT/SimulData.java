@@ -1,7 +1,9 @@
+package fr.uvsq.FCNBDT;
+
 import java.io.IOException;
 
-import reader.Reader;
-import utils.CellType;
+import fr.uvsq.FCNBDT.reader.Reader;
+import fr.uvsq.FCNBDT.utils.CellType;
 
 public class SimulData {
     private Reader reader;
@@ -12,7 +14,8 @@ public class SimulData {
     private CellType cellType;
     
     public SimulData() throws IOException {
-        reader = new Reader("traces/incendie/trace3.log");
+        //reader = new Reader("traces/incendie/trace3.log");
+        reader = new Reader("trace.log");
         matrice = new int[reader.getLength()*reader.getWidth()];
         colors = reader.getColors();
         for(int i=0;i<colors.length;i++) {

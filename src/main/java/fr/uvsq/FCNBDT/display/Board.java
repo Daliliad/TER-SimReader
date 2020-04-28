@@ -1,4 +1,4 @@
-package display;
+package fr.uvsq.FCNBDT.display;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import utils.CellType;
+import fr.uvsq.FCNBDT.utils.CellType;
 
 public class Board extends JPanel{
 
