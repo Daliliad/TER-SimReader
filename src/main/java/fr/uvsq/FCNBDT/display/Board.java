@@ -20,9 +20,6 @@ import fr.uvsq.FCNBDT.utils.CellType;
 
 public class Board extends JPanel{
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
 
     private CellType type = CellType.HEXAGONE;
@@ -91,6 +88,10 @@ public class Board extends JPanel{
         this.type=type;
         this.setPreferredSize();
     }
+    
+    public void rebootZoom() {
+        this.zoom = 1;
+    }
 
     public void setIcones(String dir) {
         icones = new BufferedImage[colors.length];
@@ -109,7 +110,14 @@ public class Board extends JPanel{
             }
         }
     }
-
+    
+    public double getPourcentagePositionI(int i, int j) {
+        return type.getPositionInBoardLength(length, i, j);
+    }
+    public double getPourcentagePositionJ(int i, int j) {
+        return type.getPositionInBoardWidth(width, i, j);
+    }
+    
     public void zoomIn() {
         this.zoom = this.type.zoomIn(zoom);
         this.setPreferredSize();

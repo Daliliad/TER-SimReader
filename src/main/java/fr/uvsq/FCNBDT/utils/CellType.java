@@ -40,6 +40,20 @@ public enum CellType {
                     (int) ((length+1)*defDimension.height*zoom) + 1);
             return boardDim;
         }
+
+        @Override
+        public double getPositionInBoardWidth(int width, int i, int j) {
+            double pos = (j+0.5)*defDimension.height;
+            double board = (width+1)*defDimension.height;
+            return pos/board;
+        }
+
+        @Override
+        public double getPositionInBoardLength(int length, int i, int j) {
+            double pos = (i+0.5)*defDimension.height;
+            double board = (length+1)*defDimension.height;
+            return pos/board;
+        }
     },
     HEXAGONE(1, new Dimension(24,28), 0.4, 5) {
         @Override
@@ -83,6 +97,22 @@ public enum CellType {
                     (int) (length*(defDimension.height*zoom*3./4)+defDimension.height*zoom*1./4)+1);
             return boardDim;
         }
+
+        @Override
+        public double getPositionInBoardWidth(int width, int i, int j) {
+            int xScale = defDimension.width/2;
+            double pos = (j*2+1-i%2+1)*xScale;
+            double board = (width+0.5)*defDimension.width;
+            return pos/board;
+        }
+
+        @Override
+        public double getPositionInBoardLength(int length, int i, int j) {
+            int yScale = defDimension.height/4;
+            double pos = (i*3+2)*yScale;
+            double board = (length*(defDimension.height*3./4)+defDimension.height*1./4);
+            return pos/board;
+        }
     };
 
     public final int i;
@@ -105,6 +135,9 @@ public enum CellType {
             int[] matrice, int width, int length, int[] colors, BufferedImage[] icones);
 
     public abstract Dimension getBoardDimension(int width, int length, double zoom);
+    
+    public abstract double getPositionInBoardWidth(int width, int i, int j);
+    public abstract double getPositionInBoardLength(int length, int i, int j);
     
     public double zoomIn(double zoom) {
         double newZoom = zoom + 0.05;

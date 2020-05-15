@@ -45,6 +45,12 @@ public class VideoCommands extends JPanel {
     private JTextField enterSpeed;
     private JLabel ms;
     
+    private JTextField enterJumpI;
+    private JLabel jumpI;
+    private JTextField enterJumpJ;
+    private JLabel jumpJ;
+    private JButton jumpTo;
+    
     private JLabel descriptive; 
 
     private Slider slider;
@@ -65,6 +71,11 @@ public class VideoCommands extends JPanel {
         enterSpeed = new JTextField();
         ms = new JLabel("ms");
         descriptive = new JLabel("Le temps d'intervalle est de: 1000 ms");
+        
+        enterJumpI = new JTextField();
+        jumpI = new JLabel("i :");
+        enterJumpJ = new JTextField();
+        jumpJ = new JLabel("j :");
 
         initButtons(frameWidth);
         initSlider(frameWidth);
@@ -88,6 +99,7 @@ public class VideoCommands extends JPanel {
         slow = new JButton("dec.");
         zoomIn = new JButton("+");
         zoomOut = new JButton("-");
+        jumpTo = new JButton("saut");
         changeSpeed = new JButton("modif.");
         begin = new JButton("debut");
 
@@ -105,6 +117,8 @@ public class VideoCommands extends JPanel {
         zoomIn.setPreferredSize(new Dimension(35,35));
         zoomOut.setMargin(new Insets(0, 0, 0, 0));
         zoomOut.setPreferredSize(new Dimension(35,35));
+        jumpTo.setMargin(new Insets(0, 0, 0, 0));
+        jumpTo.setPreferredSize(new Dimension(50,35));
         changeSpeed.setMargin(new Insets(0, 0, 0, 0));
         changeSpeed.setPreferredSize(new Dimension(50,35));
         begin.setMargin(new Insets(0, 0, 0, 0));
@@ -115,6 +129,11 @@ public class VideoCommands extends JPanel {
         buttons.setLayout(new FlowLayout());
         buttons.add(zoomIn);
         buttons.add(zoomOut);
+        buttons.add(jumpI);
+        buttons.add(enterJumpI);
+        buttons.add(jumpJ);
+        buttons.add(enterJumpJ);
+        buttons.add(jumpTo);
         buttons.add(begin);
         buttons.add(slow);
         buttons.add(previous);
@@ -308,34 +327,97 @@ public class VideoCommands extends JPanel {
         TextPrompt tp = new TextPrompt("1000", enterSpeed);
         tp.setForeground( Color.GRAY );
         tp.changeStyle(Font.ITALIC + Font.BOLD);
-
     }
 
     public void changeSpeedClick() {
         changeSpeed.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
-                try {
-                    int val = Integer.parseInt(enterSpeed.getText());
-                    if (val > 0 && val < 60000) {
-                        timeInterval = Integer.parseInt(enterSpeed.getText());
-                        descriptive.setText("Le temps d'intervalle est de: " + timeInterval + " ms");
-                        if (playOrPause.getText().equals(PAUSE_STRING)) {
-                                playOrPause.doClick();
-                                playOrPause.doClick();
-                        }
-                    } else if (val <= 0) {
-                        String warning = "Le temps d'intervalle est deja maximum!";
-                        JOptionPane.showMessageDialog(new JFrame(), warning);
-                    } else {
-                        String warning = "Le temps d'intervalle maximum est d'1 minute!";
-                        JOptionPane.showMessageDialog(new JFrame(), warning);
-                    } 
-                } catch (NumberFormatException e1) {
+                if (enterSpeed.getText().isEmpty()) {
                     timeInterval = 1000;
                     descriptive.setText("Le temps d'intervalle est de: " + timeInterval + " ms");
+                } else {
+                    try {
+                        int val = Integer.parseInt(enterSpeed.getText());
+                        if (val > 0 && val < 60000) {
+                            timeInterval = Integer.parseInt(enterSpeed.getText());
+                            descriptive.setText("Le temps d'intervalle est de: " + timeInterval + " ms");
+                            if (playOrPause.getText().equals(PAUSE_STRING)) {
+                                    playOrPause.doClick();
+                                    playOrPause.doClick();
+                            }
+                        } else if (val <= 0) {
+                            String warning = "Le temps d'intervalle ne peut être négatif ou nul!";
+                            JOptionPane.showMessageDialog(new JFrame(), warning);
+                        } else {
+                            String warning = "Le temps d'intervalle maximum est d'1 minute!";
+                            JOptionPane.showMessageDialog(new JFrame(), warning);
+                        } 
+                    } catch (NumberFormatException e1) {
+                        String warning = "Le temps d'intervalle doit être un entier!";
+                        JOptionPane.showMessageDialog(new JFrame(), warning);
+                    }
                 }
-                System.out.println(timeInterval);
+            }
+        });
+    }
+    
+    public void enterJump() {
+        enterJumpI.setColumns(4);
+        enterJumpJ.setColumns(4);
+        enterJumpI.setPreferredSize(new Dimension(35, 35));
+        enterJumpJ.setPreferredSize(new Dimension(35, 35));
+        TextPrompt tp = new TextPrompt("0", enterJumpI);
+        TextPrompt tp2 = new TextPrompt("0", enterJumpJ);
+        tp.setForeground( Color.GRAY );
+        tp.changeStyle(Font.ITALIC + Font.BOLD);
+        tp2.setForeground( Color.GRAY );
+        tp2.changeStyle(Font.ITALIC + Font.BOLD);
+    }
+    
+    public void jumpTo() {
+        jumpTo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int i, j;
+                if (enterJumpI.getText().isEmpty()) {
+                    i = 0;
+                } else {
+                    try {
+                        int val = Integer.parseInt(enterJumpI.getText());
+                        if (val >= 0 && val < simul.getWidth()) {
+                            i = val;
+                        } else {
+                            String warning = "Indice i en dehors de la simulation.";
+                            JOptionPane.showMessageDialog(new JFrame(), warning);
+                            return;
+                        } 
+                    } catch (NumberFormatException e1) {
+                        String warning = "Indice i doit être un entier.";
+                        JOptionPane.showMessageDialog(new JFrame(), warning);
+                        return;
+                    }
+                }
+                if (enterJumpJ.getText().isEmpty()) {
+                    j = 0;
+                } else {
+                    try {
+                        int val = Integer.parseInt(enterJumpJ.getText());
+                        if (val >= 0 && val < simul.getLength()) {
+                            j = val;
+                        } else {
+                            String warning = "Indice j en dehors de la simulation.";
+                            JOptionPane.showMessageDialog(new JFrame(), warning);
+                            return;
+                        } 
+                    } catch (NumberFormatException e1) {
+                        String warning = "Indice j doit être un entier.";
+                        JOptionPane.showMessageDialog(new JFrame(), warning);
+                        return;
+                    }
+                }
+                board.jumpTo(i, j);
+                enterJumpI.setText("");
+                enterJumpJ.setText("");
             }
         });
     }
@@ -360,6 +442,8 @@ public class VideoCommands extends JPanel {
         this.slowDownClick();
         this.zoomInClick();
         this.zoomOutClick();
+        this.enterJump();
+        this.jumpTo();
         this.enterTime();
         this.changeSpeedClick();
         this.beginClick();

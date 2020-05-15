@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.nio.file.Paths;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
@@ -31,6 +32,7 @@ public class SimulBoard extends JPanel {
     }
     
     public void resetBoard(SimulData data) {
+        board.rebootZoom();
         board.setWidth(data.getWidth());
         board.setLength(data.getLength());
         board.setCellType(data.getCellType());
@@ -42,11 +44,23 @@ public class SimulBoard extends JPanel {
                 "icones").toString());
         board.revalidate();
         board.repaint();
-        
+        this.scrBoard.getVerticalScrollBar().setValue(0);
+        this.scrBoard.getHorizontalScrollBar().setValue(0);
         scrBoard.revalidate();
     }
     
     public Board getBoard() {
         return board;
+    }
+    
+    public void jumpTo(int i, int j) {
+        JScrollBar vertical = this.scrBoard.getVerticalScrollBar();
+        int value = (int) ((vertical.getMaximum()-vertical.getMinimum())*this.board.getPourcentagePositionI(i, j));
+        value -= vertical.getHeight()/2;
+        vertical.setValue(value);
+        JScrollBar horizontal = this.scrBoard.getHorizontalScrollBar();
+        value = (int) ((horizontal.getMaximum()-horizontal.getMinimum())*this.board.getPourcentagePositionJ(i, j));
+        value -= horizontal.getWidth()/2;
+        horizontal.setValue(value);
     }
 }
