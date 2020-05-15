@@ -1,5 +1,6 @@
 package fr.uvsq.FCNBDT;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -31,17 +32,21 @@ public class VideoCommands extends JPanel {
     private SimulBoard board;
     private LogsPanel logs;
 
+    private JPanel container;
+    
     private JPanel buttons;
     private JButton playOrPause;
     private JButton previous;
     private JButton next;
     private JButton speed;
     private JButton slow;
-    private JButton zoomIn;
-    private JButton zoomOut;
     private JButton changeSpeed;
     private JButton begin;
-
+    
+    private JPanel zooms;
+    private JButton zoomIn;
+    private JButton zoomOut;
+    
     private JTextField enterSpeed;
     private JLabel ms;
     
@@ -110,11 +115,16 @@ public class VideoCommands extends JPanel {
         begin.setMargin(new Insets(0, 0, 0, 0));
         begin.setPreferredSize(new Dimension(45,35));
 
+        
+        zooms = new JPanel();
+        //zooms.setPreferredSize(new Dimension(frameWidth,50));
+        //zooms.setLayout(new FlowLayout(FlowLayout.LEFT));
+        zooms.add(zoomIn);
+        zooms.add(zoomOut);
+        
         buttons = new JPanel();
-        buttons.setPreferredSize(new Dimension(frameWidth,50));
-        buttons.setLayout(new FlowLayout());
-        buttons.add(zoomIn);
-        buttons.add(zoomOut);
+        //buttons.setPreferredSize(new Dimension(frameWidth,50));
+        //buttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
         buttons.add(begin);
         buttons.add(slow);
         buttons.add(previous);
@@ -125,6 +135,12 @@ public class VideoCommands extends JPanel {
         buttons.add(ms);
         buttons.add(changeSpeed);
         buttons.add(descriptive);
+        
+        container = new JPanel(new BorderLayout());
+        container.setPreferredSize(new Dimension(frameWidth,50));
+        //container.setLayout(new FlowLayout());
+        container.add(zooms, BorderLayout.WEST);
+        container.add(buttons, BorderLayout.CENTER);
     }
 
     private void initSlider(int frameWidth) {
@@ -365,7 +381,7 @@ public class VideoCommands extends JPanel {
         this.beginClick();
 
         this.add(slider);
-        this.add(buttons);
+        this.add(container);
        
     }
 

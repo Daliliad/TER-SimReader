@@ -15,7 +15,7 @@ public class SimulData {
     
     public SimulData() throws IOException {
         //reader = new Reader("traces/incendie/trace3.log");
-        reader = new Reader("trace.log");
+        reader = new Reader("traces/incendie/trace3.log");
         matrice = new int[reader.getLength()*reader.getWidth()];
         colors = reader.getColors();
         for(int i=0;i<colors.length;i++) {
