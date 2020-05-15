@@ -62,5 +62,10 @@ public class SimulBoard extends JPanel {
         value = (int) ((horizontal.getMaximum()-horizontal.getMinimum())*this.board.getPourcentagePositionJ(i, j));
         value -= horizontal.getWidth()/2;
         horizontal.setValue(value);
+        this.board.select(i, j);
+    }
+    
+    public void jumpToDeselect() {
+        this.board.deselect();
     }
 }

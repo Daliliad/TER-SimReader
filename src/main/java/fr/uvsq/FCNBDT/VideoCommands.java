@@ -50,6 +50,7 @@ public class VideoCommands extends JPanel {
     private JTextField enterJumpJ;
     private JLabel jumpJ;
     private JButton jumpTo;
+    private JButton jumpToDeselect;
     
     private JLabel descriptive; 
 
@@ -100,6 +101,7 @@ public class VideoCommands extends JPanel {
         zoomIn = new JButton("+");
         zoomOut = new JButton("-");
         jumpTo = new JButton("saut");
+        jumpToDeselect = new JButton("X");
         changeSpeed = new JButton("modif.");
         begin = new JButton("debut");
 
@@ -119,6 +121,8 @@ public class VideoCommands extends JPanel {
         zoomOut.setPreferredSize(new Dimension(35,35));
         jumpTo.setMargin(new Insets(0, 0, 0, 0));
         jumpTo.setPreferredSize(new Dimension(50,35));
+        jumpToDeselect.setMargin(new Insets(0, 0, 0, 0));
+        jumpToDeselect.setPreferredSize(new Dimension(50,35));
         changeSpeed.setMargin(new Insets(0, 0, 0, 0));
         changeSpeed.setPreferredSize(new Dimension(50,35));
         begin.setMargin(new Insets(0, 0, 0, 0));
@@ -134,6 +138,8 @@ public class VideoCommands extends JPanel {
         buttons.add(jumpJ);
         buttons.add(enterJumpJ);
         buttons.add(jumpTo);
+        buttons.add(jumpToDeselect);
+        jumpToDeselect.setVisible(false);
         buttons.add(begin);
         buttons.add(slow);
         buttons.add(previous);
@@ -418,6 +424,16 @@ public class VideoCommands extends JPanel {
                 board.jumpTo(i, j);
                 enterJumpI.setText("");
                 enterJumpJ.setText("");
+                jumpToDeselect.setVisible(true);
+            }
+        });
+    }
+    
+    public void jumpToDeselect() {
+        jumpToDeselect.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                board.jumpToDeselect();
+                jumpToDeselect.setVisible(false);
             }
         });
     }
@@ -444,6 +460,7 @@ public class VideoCommands extends JPanel {
         this.zoomOutClick();
         this.enterJump();
         this.jumpTo();
+        this.jumpToDeselect();
         this.enterTime();
         this.changeSpeedClick();
         this.beginClick();

@@ -3,6 +3,7 @@ package fr.uvsq.FCNBDT.utils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
@@ -10,7 +11,7 @@ public enum CellType {
     SQUARE(0, new Dimension(26,26), 0.4, 5) {
         @Override
         public void paintBoard(Graphics2D g2d,
-                Dimension d, double zoom,
+                Dimension d, double zoom, Point selection,
                 int[] matrice, int width, int length, int[] colors, BufferedImage[] icones) {
             if(matrice != null && matrice.length == width*length && colors != null)
             {
@@ -29,6 +30,13 @@ public enum CellType {
                         g2d.setColor(Color.black);
                         g2d.drawRect(xP, yP, scale, scale);
                     }
+                }
+                //selection
+                if (selection.x>=0 && selection.y>=0) {
+                    xP = selection.x*scale;
+                    yP = selection.y*scale;
+                    g2d.setColor(Color.red);
+                    g2d.drawRect(xP, yP, scale, scale);
                 }
             }
         }
@@ -58,7 +66,7 @@ public enum CellType {
     HEXAGONE(1, new Dimension(24,28), 0.4, 5) {
         @Override
         public void paintBoard(Graphics2D g2d,
-                Dimension d, double zoom,
+                Dimension d, double zoom, Point selection,
                 int[] matrice, int width, int length, int[] colors, BufferedImage[] icones) {
             int xP[] = new int[6];
             int yP[] = new int[6];
@@ -87,6 +95,18 @@ public enum CellType {
                     g2d.setColor(Color.black);
                     g2d.drawPolygon(xP, yP, 6);
                 }
+            }
+            //selection
+            if (selection.x>=0 && selection.y>=0) {
+                xP[0]=xP[1]=(selection.x*2+1-selection.y%2)*xScale;
+                xP[2]=xP[5]=(selection.x*2+1-selection.y%2+1)*xScale;
+                xP[3]=xP[4]=(selection.x*2+1-selection.y%2+2)*xScale;
+                yP[1]=yP[3]=(selection.y*3+3)*yScale;
+                yP[2]=(selection.y*3+4)*yScale;
+                yP[0]=yP[4]=(selection.y*3+1)*yScale;
+                yP[5]=(selection.y*3)*yScale;
+                g2d.setColor(Color.red);
+                g2d.drawPolygon(xP, yP, 6);
             }
         }
 
@@ -131,7 +151,7 @@ public enum CellType {
 
 
     public abstract void paintBoard(Graphics2D g2d,
-            Dimension panelDimension, double zoom,
+            Dimension panelDimension, double zoom, Point selection,
             int[] matrice, int width, int length, int[] colors, BufferedImage[] icones);
 
     public abstract Dimension getBoardDimension(int width, int length, double zoom);

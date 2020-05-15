@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
@@ -31,11 +32,13 @@ public class Board extends JPanel{
     private int[] colors;
     private BufferedImage[] icones;
     private double zoom;
+    private Point selection;
 
     public Board() {
         super();
         this.setPreferredSize();
         zoom = 1;
+        selection = new Point(-1, -1);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class Board extends JPanel{
         Dimension d = new Dimension();
         this.getSize(d);
         g2d.setStroke((Stroke) new BasicStroke(1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
-        type.paintBoard(g2d, d, zoom, matrice, width, length, colors, icones);
+        type.paintBoard(g2d, d, zoom, selection, matrice, width, length, colors, icones);
     }
 
     /*
@@ -128,6 +131,18 @@ public class Board extends JPanel{
     public void zoomOut() {
         this.zoom = this.type.zoomOut(zoom);
         this.setPreferredSize();
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void select(int i, int j) {
+        this.selection = new Point(j,i);
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void deselect() {
+        this.selection = new Point(-1,-1);
         this.revalidate();
         this.repaint();
     }
