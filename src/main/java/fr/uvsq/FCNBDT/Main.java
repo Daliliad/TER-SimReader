@@ -13,8 +13,7 @@ public enum Main {
         SimulData data = new SimulData();
         JFrame frame = new JFrame();
         //frame.setTitle(data.getReader().getPath());
-        frame.setTitle("Visualisateur d'Automates cellulaires");
-        
+        frame.setTitle("Visualisateur d'Automates cellulaires");   
         frame.setLayout(new BorderLayout());
         frame.setPreferredSize(new Dimension(1100,600));
         Dimension frameDimension = frame.getPreferredSize();

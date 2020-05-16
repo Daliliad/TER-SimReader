@@ -1,10 +1,13 @@
 package fr.uvsq.FCNBDT;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +16,7 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,24 +35,30 @@ public class VideoCommands extends JPanel {
     private SimulBoard board;
     private LogsPanel logs;
 
+    private JPanel container;
+    private JPanel zooms;
+    private JButton zoomIn;
+    private JButton zoomOut;
+    
     private JPanel buttons;
     private JButton playOrPause;
     private JButton previous;
     private JButton next;
     private JButton speed;
     private JButton slow;
-    private JButton zoomIn;
-    private JButton zoomOut;
     private JButton changeSpeed;
     private JButton begin;
 
     private JTextField enterSpeed;
     private JLabel ms;
     
+    private JPanel allJumpI;
     private JTextField enterJumpI;
     private JLabel jumpI;
+    private JPanel allJumpJ;
     private JTextField enterJumpJ;
     private JLabel jumpJ;
+    private JPanel allJumpTo;
     private JButton jumpTo;
     private JButton jumpToDeselect;
     
@@ -129,18 +139,10 @@ public class VideoCommands extends JPanel {
         begin.setMargin(new Insets(0, 0, 0, 0));
         begin.setPreferredSize(new Dimension(45,35));
 
-        buttons = new JPanel();
+        buttons = new JPanel();     
         buttons.setPreferredSize(new Dimension(frameWidth,50));
         buttons.setLayout(new FlowLayout());
-        buttons.add(zoomIn);
-        buttons.add(zoomOut);
-        buttons.add(jumpI);
-        buttons.add(enterJumpI);
-        buttons.add(jumpJ);
-        buttons.add(enterJumpJ);
-        buttons.add(jumpTo);
-        buttons.add(jumpToDeselect);
-        jumpToDeselect.setVisible(false);
+        
         buttons.add(begin);
         buttons.add(slow);
         buttons.add(previous);
@@ -151,6 +153,37 @@ public class VideoCommands extends JPanel {
         buttons.add(ms);
         buttons.add(changeSpeed);
         buttons.add(descriptive);
+        
+        zooms = new JPanel();
+        zooms.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        zooms.add(zoomIn);
+        zooms.add(zoomOut);
+        
+        allJumpI = new JPanel();
+        allJumpI.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        allJumpI.add(jumpI);
+        allJumpI.add(enterJumpI);
+        allJumpJ = new JPanel();
+        allJumpJ.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        allJumpJ.add(jumpJ);
+        allJumpJ.add(enterJumpJ);
+        allJumpTo = new JPanel();
+        allJumpTo.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        allJumpTo.add(jumpTo);
+        allJumpTo.add(jumpToDeselect);
+        
+        container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.add(zooms);
+        container.add(allJumpI);
+        container.add(allJumpJ);
+        container.add(allJumpTo);
+        
+        
+        jumpToDeselect.setVisible(false);
+        board.setLayout(new BorderLayout());
+        board.add(container,BorderLayout.CENTER);
+        
     }
 
     private void initSlider(int frameWidth) {
@@ -497,7 +530,6 @@ public class VideoCommands extends JPanel {
 
         this.add(slider);
         this.add(buttons);
-       
     }
 
 }
