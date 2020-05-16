@@ -1,10 +1,12 @@
 package fr.uvsq.FCNBDT;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 
 public enum Main {
     MAIN;
@@ -23,13 +25,20 @@ public enum Main {
         SimulBoard b = new SimulBoard(widthBoard);
         //b.resetBoard(data);
         //b.setIcones("traces/jeuvie/");
-
+        
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BorderLayout());
+        rightPanel.setPreferredSize(new Dimension(frameDimension.width-widthBoard-20, 460));
         /* LOGS */
         LogsPanel texts = new LogsPanel(frameDimension.width-widthBoard-20);
-
+        rightPanel.add(texts, BorderLayout.SOUTH);
+        
         /* Buttons and Slider */
-        VideoCommands videoCommands = new VideoCommands(data, b, texts, frameDimension.width);
+        JPanel infoPosition = new JPanel();
+        infoPosition.setPreferredSize(new Dimension(frameDimension.width-widthBoard-20, 40));
+        VideoCommands videoCommands = new VideoCommands(data, b, texts, infoPosition, frameDimension.width);
         videoCommands.traitement();
+        rightPanel.add(infoPosition, BorderLayout.NORTH);
 
         /* FILE */
         JMenuBar menu = new MenuBar(videoCommands);
@@ -37,8 +46,7 @@ public enum Main {
         frame.setJMenuBar(menu);
 
 
-
-        frame.add(texts,BorderLayout.EAST);
+        frame.add(rightPanel,BorderLayout.EAST);
         frame.add(b, BorderLayout.WEST);
         //frame.add(buttons,BorderLayout.SOUTH);
         frame.add(videoCommands,BorderLayout.SOUTH);

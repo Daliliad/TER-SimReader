@@ -1,11 +1,15 @@
 package fr.uvsq.FCNBDT;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.nio.file.Paths;
 
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -16,6 +20,7 @@ import fr.uvsq.FCNBDT.display.Board;
 
 public class SimulBoard extends JPanel {
     
+    private JLayeredPane layeredPane;
     private Board board;
     private JScrollPane scrBoard;
     
@@ -27,15 +32,27 @@ public class SimulBoard extends JPanel {
         scrBoard.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrBoard.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        scrBoard.setPreferredSize(new Dimension(widthBoard,455));
+        scrBoard.setPreferredSize(new Dimension(widthBoard,450));
         scrBoard.setMaximumSize(new Dimension(widthBoard,525));
         
         scrBoard.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrBoard.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        scrBoard.setBounds(0, 0, widthBoard, 455);
         
-        this.add(scrBoard);
-        this.setPreferredSize(new Dimension(widthBoard,450));
+        layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(widthBoard,455));
+        layeredPane.add(scrBoard, JLayeredPane.DEFAULT_LAYER);
+        
+        this.add(layeredPane);
+        this.setPreferredSize(new Dimension(widthBoard,455));
         this.setMaximumSize(new Dimension(widthBoard,525));
+    }
+    
+    public void addZoomLayer(JPanel panel) {
+        panel.setBounds(scrBoard.getWidth()-100, 1, 80, 45);
+        panel.setOpaque(false);
+        layeredPane.setLayer(panel, JLayeredPane.PALETTE_LAYER, 0);
+        layeredPane.add(panel, JLayeredPane.PALETTE_LAYER);
     }
     
     public void resetBoard(SimulData data) {
@@ -74,5 +91,10 @@ public class SimulBoard extends JPanel {
     
     public void jumpToDeselect() {
         this.board.deselect();
+    }
+    
+    public Point getCurrentPosition(Point p) {
+        Point result = board.getCurrentPosition(p);
+        return result;
     }
 }

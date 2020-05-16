@@ -154,6 +154,15 @@ public class Board extends JPanel{
     public double getPourcentagePositionJ(int i, int j) {
         return isFilled?type.getPositionInBoardWidth(width, i, j):0;
     }
+    
+    public Point getCurrentPosition(Point p) {
+        if (!isFilled)
+            return new Point(-1, -1);
+        Point result = type.getCurrentPosition(zoom, p);
+        if (result.x >= width || result.y >= length)
+            return new Point(-1, -1);
+        return result;
+    }
 
     public void zoomIn() {
         this.zoom = this.type.zoomIn(zoom);

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
@@ -61,6 +62,14 @@ public enum CellType {
             double pos = (i+0.5)*defDimension.height;
             double board = (length+1)*defDimension.height;
             return pos/board;
+        }
+
+        @Override
+        public Point getCurrentPosition(double zoom, Point p) {
+            int taille = (int) (defDimension.height*zoom);
+            int i = p.y/taille;
+            int j = p.x/taille;
+            return new Point(i,j);
         }
     },
     HEXAGONE(1, new Dimension(24,28), 0.4, 5) {
@@ -133,6 +142,46 @@ public enum CellType {
             double board = (length*(defDimension.height*3./4)+defDimension.height*1./4);
             return pos/board;
         }
+
+        @Override
+        public Point getCurrentPosition(double zoom, Point p) {
+            int xScale = (int) ((defDimension.width/2)*zoom);
+            int demiJ = p.x/xScale;
+            int yScale = (int) ((defDimension.height/4)*zoom);
+            int troisQuartI = p.y/(3*yScale);
+            int part3I = (p.y/yScale)%3;
+            int i;
+            if(part3I==1 || part3I==2) {
+                i = troisQuartI;
+            } else {
+                int pariteI = demiJ%2;
+                int pariteJ = troisQuartI%2;
+                
+                Polygon triangle;
+                int[] xP = new int[3];
+                int[] yP = new int[3];
+                xP[0] = yP[0] = 0;
+                yP[2] = 0;
+                xP[2] = xScale;
+                yP[1] = yScale;
+                if(pariteI + pariteJ == 1) {
+                    xP[1] = 0;
+                } else {
+                    xP[1] = xScale;
+                }
+                triangle = new Polygon(xP, yP, 3);
+                Point pInScale = new Point(p.x%xScale, p.y%yScale);
+                boolean isTriangle = false;
+                if (triangle.contains(pInScale)) {
+                    isTriangle = true;
+                }
+                i = isTriangle?troisQuartI-1:troisQuartI;
+            }
+            int j = (demiJ-1+i%2);
+            if(j>=0)
+                j = j/2;
+            return new Point(i, j);
+        }
     };
 
     public final int i;
@@ -158,6 +207,7 @@ public enum CellType {
     
     public abstract double getPositionInBoardWidth(int width, int i, int j);
     public abstract double getPositionInBoardLength(int length, int i, int j);
+    public abstract Point getCurrentPosition(double zoom, Point p);
     
     public double zoomIn(double zoom) {
         double newZoom = zoom + 0.05;

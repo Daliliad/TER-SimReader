@@ -1,13 +1,17 @@
 package fr.uvsq.FCNBDT;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
@@ -17,6 +21,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -30,6 +35,19 @@ public class VideoCommands extends JPanel {
     private SimulData simul;
     private SimulBoard board;
     private LogsPanel logs;
+    
+    private JPanel zoomPanel;
+    private JButton zoomIn;
+    private JButton zoomOut;
+    
+    private JPanel infoPosition;
+    private JLabel currentPosition;
+    private JTextField enterJumpI;
+    private JLabel jumpI;
+    private JTextField enterJumpJ;
+    private JLabel jumpJ;
+    private JButton jumpTo;
+    private JButton jumpToDeselect;
 
     private JPanel buttons;
     private JButton playOrPause;
@@ -37,20 +55,11 @@ public class VideoCommands extends JPanel {
     private JButton next;
     private JButton speed;
     private JButton slow;
-    private JButton zoomIn;
-    private JButton zoomOut;
     private JButton changeSpeed;
     private JButton begin;
 
     private JTextField enterSpeed;
     private JLabel ms;
-    
-    private JTextField enterJumpI;
-    private JLabel jumpI;
-    private JTextField enterJumpJ;
-    private JLabel jumpJ;
-    private JButton jumpTo;
-    private JButton jumpToDeselect;
     
     private JLabel descriptive; 
 
@@ -62,11 +71,13 @@ public class VideoCommands extends JPanel {
     private static final String PLAY_STRING = "play";
     private static final String PAUSE_STRING = "pause";
 
-    public VideoCommands(SimulData sd, SimulBoard b, LogsPanel l, int frameWidth) throws IOException {
+    public VideoCommands(SimulData sd, SimulBoard b, LogsPanel l,
+            JPanel infoPosition, int frameWidth) throws IOException {
         super();
         this.simul = sd;
         this.board = b;
         this.logs = l;
+        this.infoPosition = infoPosition;
         timer = new Timer();
 
         enterSpeed = new JTextField();
@@ -80,6 +91,7 @@ public class VideoCommands extends JPanel {
 
         initButtons(frameWidth);
         initSlider(frameWidth);
+        this.initInfoPosition();
 
         this.setPreferredSize(new Dimension(frameWidth,75));
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -123,24 +135,20 @@ public class VideoCommands extends JPanel {
         jumpTo.setMargin(new Insets(0, 0, 0, 0));
         jumpTo.setPreferredSize(new Dimension(50,35));
         jumpToDeselect.setMargin(new Insets(0, 0, 0, 0));
-        jumpToDeselect.setPreferredSize(new Dimension(50,35));
+        jumpToDeselect.setPreferredSize(new Dimension(35,35));
         changeSpeed.setMargin(new Insets(0, 0, 0, 0));
         changeSpeed.setPreferredSize(new Dimension(50,35));
         begin.setMargin(new Insets(0, 0, 0, 0));
         begin.setPreferredSize(new Dimension(45,35));
-
+        
+        zoomPanel = new JPanel();
+        zoomPanel.add(zoomIn, BorderLayout.LINE_END);
+        zoomPanel.add(zoomOut, BorderLayout.LINE_END);
+        board.addZoomLayer(zoomPanel);
+        
         buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(frameWidth,50));
         buttons.setLayout(new FlowLayout());
-        buttons.add(zoomIn);
-        buttons.add(zoomOut);
-        buttons.add(jumpI);
-        buttons.add(enterJumpI);
-        buttons.add(jumpJ);
-        buttons.add(enterJumpJ);
-        buttons.add(jumpTo);
-        buttons.add(jumpToDeselect);
-        jumpToDeselect.setVisible(false);
         buttons.add(begin);
         buttons.add(slow);
         buttons.add(previous);
@@ -151,6 +159,42 @@ public class VideoCommands extends JPanel {
         buttons.add(ms);
         buttons.add(changeSpeed);
         buttons.add(descriptive);
+    }
+    
+    private void initInfoPosition() {
+        infoPosition.setLayout(new BorderLayout());
+        
+        currentPosition = new JLabel();
+        currentPosition.setText("");
+        infoPosition.add(currentPosition, BorderLayout.WEST);
+        JPanel jump = new JPanel();
+        jump.add(jumpI);
+        jump.add(enterJumpI);
+        jump.add(jumpJ);
+        jump.add(enterJumpJ);
+        jump.add(jumpTo);
+        jump.add(jumpToDeselect);
+        jumpToDeselect.setVisible(false);
+        infoPosition.add(jump, BorderLayout.EAST);
+        
+        MouseAdapter mouseS = new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                Point p = board.getCurrentPosition(e.getPoint());
+                if(p.x < 0 || p.y < 0) {
+                    currentPosition.setText("");
+                } else {
+                    currentPosition.setText("(" + p.x + ", " + p.y + ")");
+                }
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                currentPosition.setText("");
+            }
+        };
+        board.getBoard().addMouseListener(mouseS);
+        board.getBoard().addMouseMotionListener(mouseS);
     }
 
     private void initSlider(int frameWidth) {
