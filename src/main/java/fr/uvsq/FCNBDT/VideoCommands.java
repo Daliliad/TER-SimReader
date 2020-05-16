@@ -86,7 +86,8 @@ public class VideoCommands extends JPanel {
 
         this.timeInterval = 1000;
 
-        logs.rebootLogs(simul.getReader().getLog(-1));
+        //logs.rebootLogs(simul.getReader().getLog(-1));
+        logs.noLogs();
 
         /*BufferedImage myPicture = ImageIO.read(new File(""));
        playOrPause = new JButton("Shopping", new ImageIcon(myPicture));*/
@@ -153,11 +154,16 @@ public class VideoCommands extends JPanel {
     }
 
     private void initSlider(int frameWidth) {
-        slider = new Slider(simul.getReader().getTmax());
+        slider = new Slider(simul.isFilled()?simul.getReader().getTmax():0);
         slider.setPreferredSize(new Dimension((int) (frameWidth*0.8),20));
         slider.addChangeListener(new ChangeListener(){
             public void stateChanged(ChangeEvent event){
                 try {
+                    if (!simul.isFilled()) {
+                        String warning = "Aucun fichier ouvert.";
+                        JOptionPane.showMessageDialog(new JFrame(), warning);
+                        return;
+                    }
                     if(simul.getReader().readExactTime(simul.getMatrice(), ((JSlider)event.getSource()).getValue()) != -1) {
                         if(simul.getReader().logExist(simul.getReader().getT()))
                             logs.addTextLogs(simul.getReader().getLog(simul.getReader().getT()));
@@ -176,6 +182,11 @@ public class VideoCommands extends JPanel {
         playOrPause.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+                if (!simul.isFilled()) {
+                    String warning = "Aucun fichier ouvert.";
+                    JOptionPane.showMessageDialog(new JFrame(), warning);
+                    return;
+                }
                 int begin = 0;
                 Object source = e.getSource();
                 if (source instanceof JButton) {
@@ -211,18 +222,11 @@ public class VideoCommands extends JPanel {
         next.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
-                /*try {
-                    if(simul.getReader().readNext(simul.getMatrice()) != -1) {
-                        if(simul.getReader().logExist(simul.getReader().getT()))
-                            logs.setText(logs.getText() 
-                                    + simul.getReader().getLog(simul.getReader().getT()) + "\n");
-                        board.setMatrice(simul.getMatrice());
-                        board.revalidate();
-                        board.repaint();
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }*/
+                if (!simul.isFilled()) {
+                    String warning = "Aucun fichier ouvert.";
+                    JOptionPane.showMessageDialog(new JFrame(), warning);
+                    return;
+                }
                 slider.setValue(slider.getValue()+1);
             }
         });
@@ -234,15 +238,11 @@ public class VideoCommands extends JPanel {
         previous.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
-                /*try {
-                    simul.getReader().readPrevious(simul.getMatrice());
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                if (!simul.isFilled()) {
+                    String warning = "Aucun fichier ouvert.";
+                    JOptionPane.showMessageDialog(new JFrame(), warning);
+                    return;
                 }
-                board.setMatrice(simul.getMatrice());
-                board.revalidate();
-                board.repaint();*/
                 slider.setValue(slider.getValue()-1);
             }
         });
@@ -295,6 +295,11 @@ public class VideoCommands extends JPanel {
         zoomIn.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
+                if (!simul.isFilled()) {
+                    String warning = "Aucun fichier ouvert.";
+                    JOptionPane.showMessageDialog(new JFrame(), warning);
+                    return;
+                }
                 board.getBoard().zoomIn();
             }
         });
@@ -304,6 +309,11 @@ public class VideoCommands extends JPanel {
         zoomOut.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
+                if (!simul.isFilled()) {
+                    String warning = "Aucun fichier ouvert.";
+                    JOptionPane.showMessageDialog(new JFrame(), warning);
+                    return;
+                }
                 board.getBoard().zoomOut();
             }
         });
@@ -316,7 +326,6 @@ public class VideoCommands extends JPanel {
             playOrPause.doClick();
         }
         board.resetBoard(simul);
-        timeInterval = 1000;
 
         slider.setValue(0);
         slider.setMaximum(simul.getReader().getTmax());
@@ -325,6 +334,22 @@ public class VideoCommands extends JPanel {
 
         ((Frame) this.getParent().getParent().getParent().getParent())
         .setTitle(simul.getReader().getPath());
+        jumpToDeselect.setVisible(false);
+        board.jumpToDeselect();
+    }
+    
+    public void noFile() {
+        if (playOrPause.getText().equals("pause")) {
+            playOrPause.doClick();
+        }
+        slider.setValue(0);
+        slider.setMaximum(0);
+        logs.noLogs();
+        ((Frame) this.getParent().getParent().getParent().getParent())
+            .setTitle("Visualisateur d'Automates cellulaires");
+        jumpToDeselect.setVisible(false);
+        simul.noData();
+        board.noBoard();
     }
 
     public void enterTime() {
@@ -384,6 +409,11 @@ public class VideoCommands extends JPanel {
     public void jumpTo() {
         jumpTo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                if (!simul.isFilled()) {
+                    String warning = "Aucun fichier ouvert.";
+                    JOptionPane.showMessageDialog(new JFrame(), warning);
+                    return;
+                }
                 int i, j;
                 if (enterJumpI.getText().isEmpty()) {
                     i = 0;

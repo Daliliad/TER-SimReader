@@ -66,6 +66,11 @@ public class LogsPanel extends JPanel {
         logs.setText("");
         infos.setText(staticLog);
     }
+    
+    public void noLogs() {
+        logs.setText("");
+        infos.setText("");
+    }
 
     public void addTextLogs(String str) {
         logs.setText(logs.getText() 

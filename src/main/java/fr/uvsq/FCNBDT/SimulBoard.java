@@ -32,18 +32,18 @@ public class SimulBoard extends JPanel {
     }
     
     public void resetBoard(SimulData data) {
-        board.rebootZoom();
-        board.setWidth(data.getWidth());
-        board.setLength(data.getLength());
-        board.setCellType(data.getCellType());
-        board.setColors(data.getColors());
-        board.setMatrice(data.getMatrice());
-        board.setIcones(Paths.get(Paths.get(data.getReader().getPath()).toAbsolutePath().getParent().toString(),
-                "icones").toString());
+        board.filled(data);
+        
         System.out.println(Paths.get(Paths.get(data.getReader().getPath()).toAbsolutePath().getParent().toString(),
                 "icones").toString());
-        board.revalidate();
-        board.repaint();
+        
+        this.scrBoard.getVerticalScrollBar().setValue(0);
+        this.scrBoard.getHorizontalScrollBar().setValue(0);
+        scrBoard.revalidate();
+    }
+    
+    public void noBoard() {
+        board.unfilled();
         this.scrBoard.getVerticalScrollBar().setValue(0);
         this.scrBoard.getHorizontalScrollBar().setValue(0);
         scrBoard.revalidate();

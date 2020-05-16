@@ -6,6 +6,7 @@ import fr.uvsq.FCNBDT.reader.Reader;
 import fr.uvsq.FCNBDT.utils.CellType;
 
 public class SimulData {
+    private boolean isFilled;
     private Reader reader;
     private int[] matrice;
     private int[] colors;
@@ -14,8 +15,24 @@ public class SimulData {
     private CellType cellType;
     
     public SimulData() throws IOException {
-        reader = new Reader("traces/incendie/trace3.log");
-        //reader = new Reader("trace.log");
+        isFilled = false;
+        this.noData();
+        /*reader = new Reader("traces/incendie/trace3.log");
+        matrice = new int[reader.getLength()*reader.getWidth()];
+        colors = reader.getColors();
+        for(int i=0;i<colors.length;i++) {
+            System.out.println(i+" : "+colors[i]);
+        }
+        width = reader.getWidth();
+        length = reader.getLength();
+        cellType = reader.getCellType();
+
+        reader.readNext(matrice);*/
+    }
+    
+    public void resetData(String path) throws IOException {
+        isFilled = true;
+        reader = new Reader(path);
         matrice = new int[reader.getLength()*reader.getWidth()];
         colors = reader.getColors();
         for(int i=0;i<colors.length;i++) {
@@ -28,18 +45,18 @@ public class SimulData {
         reader.readNext(matrice);
     }
     
-    public void resetData(String path) throws IOException {
-        reader = new Reader(path);
-        matrice = new int[reader.getLength()*reader.getWidth()];
-        colors = reader.getColors();
-        for(int i=0;i<colors.length;i++) {
-            System.out.println(i+" : "+colors[i]);
-        }
-        width = reader.getWidth();
-        length = reader.getLength();
-        cellType = reader.getCellType();
-
-        reader.readNext(matrice);
+    public void noData() {
+        reader = null;
+        matrice = null;
+        colors = null;
+        width = 0;
+        length = 0;
+        cellType = null;
+        isFilled = false;
+    }
+    
+    public boolean isFilled() {
+        return isFilled;
     }
 
     public int[] getMatrice() {

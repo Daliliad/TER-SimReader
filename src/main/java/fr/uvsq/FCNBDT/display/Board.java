@@ -17,12 +17,14 @@ import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import fr.uvsq.FCNBDT.SimulData;
 import fr.uvsq.FCNBDT.utils.CellType;
 
 public class Board extends JPanel{
 
     private static final long serialVersionUID = 1L;
 
+    private boolean isFilled;
     private CellType type = CellType.HEXAGONE;
     private int width = 3;
     private int length = 3;
@@ -39,6 +41,7 @@ public class Board extends JPanel{
         this.setPreferredSize();
         zoom = 1;
         selection = new Point(-1, -1);
+        isFilled = false;
     }
 
     @Override
@@ -52,7 +55,8 @@ public class Board extends JPanel{
         Dimension d = new Dimension();
         this.getSize(d);
         g2d.setStroke((Stroke) new BasicStroke(1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
-        type.paintBoard(g2d, d, zoom, selection, matrice, width, length, colors, icones);
+        if (isFilled)
+            type.paintBoard(g2d, d, zoom, selection, matrice, width, length, colors, icones);
     }
 
     /*
@@ -68,7 +72,7 @@ public class Board extends JPanel{
 		}
 	}
      */
-
+    /*
     public void setWidth(int width) {
         this.width = width;
         this.setPreferredSize();
@@ -77,26 +81,56 @@ public class Board extends JPanel{
     public void setLength(int length) {
         this.length = length;
         this.setPreferredSize();
-    }
+    }*/
 
     public void setMatrice(int[] matrice) {
         this.matrice = matrice;
     }
-
+/*
     public void setColors(int[] colors) {
         this.colors = colors;
     }
 
     public void setCellType(CellType type) {
-        this.type=type;
+        this.type = type;
         this.setPreferredSize();
-    }
-    
-    public void rebootZoom() {
+    }*/
+
+    public void filled(SimulData data) {
+        this.isFilled = true;
         this.zoom = 1;
+        this.width = data.getWidth();
+        this.length = data.getLength();
+        this.type = data.getCellType();
+        this.setPreferredSize();
+        this.colors = data.getColors();
+        this.matrice = data.getMatrice();
+        this.setIcones(Paths.get(Paths.get(data.getReader().getPath()).toAbsolutePath().getParent().toString(),
+                "icones").toString());
+        this.revalidate();
+        this.repaint();
     }
 
-    public void setIcones(String dir) {
+    public void unfilled() {
+        this.isFilled = false;
+        this.selection = new Point(-1,-1);
+        this.zoom = 1;
+        this.width = 0;
+        this.length = 0;
+        this.type = null;
+        this.setPreferredSize();
+        this.colors = null;
+        this.matrice = null;
+        this.icones = null;
+        this.revalidate();
+        this.repaint();
+    }
+
+    /*public void rebootZoom() {
+        this.zoom = 1;
+    }*/
+
+    private void setIcones(String dir) {
         icones = new BufferedImage[colors.length];
         File f;
         for(int i=0;i<icones.length;i++) {
@@ -113,14 +147,14 @@ public class Board extends JPanel{
             }
         }
     }
-    
+
     public double getPourcentagePositionI(int i, int j) {
-        return type.getPositionInBoardLength(length, i, j);
+        return isFilled?type.getPositionInBoardLength(length, i, j):0;
     }
     public double getPourcentagePositionJ(int i, int j) {
-        return type.getPositionInBoardWidth(width, i, j);
+        return isFilled?type.getPositionInBoardWidth(width, i, j):0;
     }
-    
+
     public void zoomIn() {
         this.zoom = this.type.zoomIn(zoom);
         this.setPreferredSize();
@@ -134,13 +168,15 @@ public class Board extends JPanel{
         this.revalidate();
         this.repaint();
     }
-    
+
     public void select(int i, int j) {
-        this.selection = new Point(j,i);
-        this.revalidate();
-        this.repaint();
+        if(isFilled) {
+            this.selection = new Point(j,i);
+            this.revalidate();
+            this.repaint();
+        }
     }
-    
+
     public void deselect() {
         this.selection = new Point(-1,-1);
         this.revalidate();
@@ -148,6 +184,6 @@ public class Board extends JPanel{
     }
 
     private void setPreferredSize() {
-        this.setPreferredSize(type.getBoardDimension(width, length, zoom));
+        this.setPreferredSize(isFilled?type.getBoardDimension(width, length, zoom):new Dimension(0,0));
     }
 }

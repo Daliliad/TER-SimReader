@@ -16,6 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class MenuBar extends JMenuBar {
     JMenu fileMenu;
     JMenuItem openFileMenu;
+    JMenuItem closeFileMenu;
     
     VideoCommands videoButton;
 
@@ -24,7 +25,9 @@ public class MenuBar extends JMenuBar {
         
         fileMenu = new JMenu("Fichier");
         initOpenFileMenu();
+        initCloseFileMenu();
         fileMenu.add(openFileMenu);
+        fileMenu.add(closeFileMenu);
 
         this.add(fileMenu);
     }
@@ -57,6 +60,16 @@ public class MenuBar extends JMenuBar {
                 } else {
                     System.out.println("No Selection ");
                 }
+            }
+
+        });
+    }
+    
+    private void initCloseFileMenu() {
+        closeFileMenu = new JMenuItem("Fermer Fichier");
+        closeFileMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                videoButton.noFile();
             }
 
         });

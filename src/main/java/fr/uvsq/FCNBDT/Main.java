@@ -12,15 +12,16 @@ public enum Main {
     public void run() throws IOException {
         SimulData data = new SimulData();
         JFrame frame = new JFrame();
-        frame.setTitle(data.getReader().getPath());
-
+        //frame.setTitle(data.getReader().getPath());
+        frame.setTitle("Visualisateur d'Automates cellulaires");
+        
         frame.setLayout(new BorderLayout());
         frame.setPreferredSize(new Dimension(1100,600));
         Dimension frameDimension = frame.getPreferredSize();
         int widthBoard = (int) (frameDimension.width*0.7);
 
         SimulBoard b = new SimulBoard(widthBoard);
-        b.resetBoard(data);
+        //b.resetBoard(data);
         //b.setIcones("traces/jeuvie/");
 
         /* LOGS */
