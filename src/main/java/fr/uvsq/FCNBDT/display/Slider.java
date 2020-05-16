@@ -2,14 +2,19 @@ package fr.uvsq.FCNBDT.display;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Paint;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
@@ -18,7 +23,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
@@ -28,19 +36,82 @@ import javax.swing.plaf.basic.BasicSliderUI;
 
 public class Slider extends JSlider {
 
+    private JLabel contentValue;
+    private Popup valueHover = null;
+
     public Slider(int Maximum) {
         super(0, Maximum);
-        
+
         this.setValue(0);
-        
+
+        this.initContentPopup();
         //Cursor cursor = new Cursor(Cursor.HAND_CURSOR);
 
         this.setUI(new VideoSliderUI(this));
         //this.setOrientation(SwingConstants.VERTICAL);
 
+        this.addClickListener();
     }
 
-    public class VideoSliderUI extends BasicSliderUI {
+    private void initContentPopup() {
+        contentValue = new JLabel();
+        contentValue.setBackground(Color.LIGHT_GRAY);
+        contentValue.setBorder(new TextBubbleBorder(Color.black, 1, 4, 3));
+    }
+
+    private void showValueHover(int xMouse) {
+        if(this.valueHover!=null)
+            this.valueHover.hide();
+        VideoSliderUI v = (VideoSliderUI) this.getUI();
+        
+        int value = v.valueForXPosition(xMouse);
+        this.contentValue.setText(String.valueOf(value));
+        
+        Point pos = this.getLocationOnScreen();
+        int x = pos.x + xMouse - this.contentValue.getWidth()/2 - 1;
+        int y = pos.y + v.getYTrackTop() - 25;
+        
+        this.valueHover = PopupFactory.getSharedInstance()
+                .getPopup(this, contentValue, x, y);
+        this.valueHover.show();
+    }
+    
+    private void hideValueHover() {
+        if(this.valueHover!=null)
+            this.valueHover.hide();
+        this.valueHover = null;
+    }
+
+    private void addClickListener() {
+        SliderMouse mouse = new SliderMouse();
+        this.addMouseListener(mouse);
+        this.addMouseMotionListener(mouse);
+    }
+    
+    private class SliderMouse extends MouseAdapter {
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            Slider s = (Slider) e.getSource();
+            s.showValueHover(e.getX());
+        }
+        
+        @Override
+        public void mouseExited(MouseEvent e) {
+            Slider s = (Slider) e.getSource();
+            s.hideValueHover();
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            Slider s = (Slider) e.getSource();
+            VideoSliderUI v = (VideoSliderUI) s.getUI();
+            int value = v.valueForXPosition(e.getX());
+            s.setValue(value);
+        }
+    }
+
+    private class VideoSliderUI extends BasicSliderUI {
         Color thumbColor;
         Color rangeColor;
 
@@ -118,6 +189,13 @@ public class Slider extends JSlider {
                     oldKeyValue);
         }
 
+        /*public int getXPositionForValue(int value) {
+            return this.xPositionForValue(value);
+        }*/
+
+        public int getYTrackTop() {
+            return trackRect.y;
+        }
     }
 
 }

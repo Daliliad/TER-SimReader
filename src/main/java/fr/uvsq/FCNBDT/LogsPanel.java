@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 
 public class LogsPanel extends JPanel {
@@ -56,6 +57,8 @@ public class LogsPanel extends JPanel {
         scrinfo.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrinfo.setMaximumSize(new Dimension(1000, 500));
         scrinfo.setPreferredSize(new Dimension(width, 100));
+        scrinfo.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
+        scrinfo.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
     }
 
     public JTextPane getLogs() {

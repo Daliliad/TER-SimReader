@@ -1,11 +1,15 @@
 package fr.uvsq.FCNBDT;
 
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.nio.file.Paths;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 
 import fr.uvsq.FCNBDT.display.Board;
@@ -25,6 +29,9 @@ public class SimulBoard extends JPanel {
 
         scrBoard.setPreferredSize(new Dimension(widthBoard,455));
         scrBoard.setMaximumSize(new Dimension(widthBoard,525));
+        
+        scrBoard.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
+        scrBoard.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
         
         this.add(scrBoard);
         this.setPreferredSize(new Dimension(widthBoard,450));
