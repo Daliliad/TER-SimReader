@@ -193,6 +193,12 @@ public class Board extends JPanel{
     }
 
     private void setPreferredSize() {
-        this.setPreferredSize(isFilled?type.getBoardDimension(width, length, zoom):new Dimension(0,0));
+        if(!isFilled) {
+            this.setPreferredSize(new Dimension(0,0));
+            return;
+        }
+        Dimension result = type.getBoardDimension(width, length, zoom);
+        result.width += 80;
+        this.setPreferredSize(result);
     }
 }
