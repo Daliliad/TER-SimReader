@@ -57,10 +57,6 @@ public class SimulBoard extends JPanel {
     
     public void resetBoard(SimulData data) {
         board.filled(data);
-        
-        System.out.println(Paths.get(Paths.get(data.getReader().getPath()).toAbsolutePath().getParent().toString(),
-                "icones").toString());
-        
         this.scrBoard.getVerticalScrollBar().setValue(0);
         this.scrBoard.getHorizontalScrollBar().setValue(0);
         scrBoard.revalidate();

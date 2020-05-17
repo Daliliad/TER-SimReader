@@ -24,9 +24,6 @@ public class SimulData {
         reader = new Reader(path);
         matrice = new int[reader.getLength()*reader.getWidth()];
         colors = reader.getColors();
-        for(int i=0;i<colors.length;i++) {
-            System.out.println(i+" : "+colors[i]);
-        }
         width = reader.getWidth();
         length = reader.getLength();
         cellType = reader.getCellType();

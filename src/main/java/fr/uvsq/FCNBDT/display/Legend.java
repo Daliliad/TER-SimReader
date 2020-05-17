@@ -64,7 +64,6 @@ public class Legend extends JPanel {
         this.pathLegend = Paths.get(Paths.get(path).toAbsolutePath().getParent().toString(),
                 "legende.txt").toString();
         nomsEtats = LegendReader.readLegend(this.pathLegend);
-        System.out.println(nomsEtats.toString());
         
         if(nomsEtats.isEmpty()) {
             content.add(new JLabel("Aucune légende disponible"));
@@ -97,7 +96,6 @@ public class Legend extends JPanel {
         content.removeAll();
         etatsCellules.clear();
         nomsEtats.clear();
-        System.out.println("No legend");
         content.add(new JLabel("Aucun fichier ouvert"));
         this.revalidate();
         this.repaint();

@@ -58,9 +58,6 @@ public enum Main {
         frame.setResizable(false);
         frame.setLocationRelativeTo( null );
         frame.setVisible(true);
-
-
-        System.out.println("Frame Dimension : "+frame.getSize().toString());
     }
 
     public static void main(String[] args) throws IOException {

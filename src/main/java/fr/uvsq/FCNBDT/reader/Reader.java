@@ -36,8 +36,6 @@ public class Reader {
 		File f;
 		BufferedReader l;
 		String s;
-		System.out.println(Paths.get(Paths.get(path).toAbsolutePath().toString()));
-		System.out.println(Paths.get(path).toAbsolutePath().getParent().toString());
 		if((f = new File(
 				Paths.get(Paths.get(path).toAbsolutePath().getParent().toString(),
 						"logs.txt").toString())
@@ -93,7 +91,7 @@ public class Reader {
 	}
 	
 	public int readNext(int[] matrice) throws IOException{
-		System.out.println(fis.available()/(width * length * 4));
+		//System.out.println(fis.available()/(width * length * 4));
 		if(fis.available() >= width * length * 4)
 			t++;
 		else 
