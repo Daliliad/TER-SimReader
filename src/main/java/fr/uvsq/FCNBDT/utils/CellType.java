@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
@@ -75,6 +76,7 @@ public enum CellType {
         @Override
         public void paintLegendElement(Graphics2D g2d, int color,
                 BufferedImage icone) {
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);    
             int scale = defDimension.height;
             int xP, yP;
             xP = 0;
@@ -207,6 +209,7 @@ public enum CellType {
         @Override
         public void paintLegendElement(Graphics2D g2d, int color,
                 BufferedImage icone) {
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             int xP[] = new int[6];
             int yP[] = new int[6];
             int xScale = defDimension.width/2;
