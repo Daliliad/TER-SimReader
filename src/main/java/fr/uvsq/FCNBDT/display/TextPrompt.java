@@ -1,4 +1,4 @@
-package fr.uvsq.FCNBDT;
+package fr.uvsq.FCNBDT.display;
 
 import java.awt.*;
 import java.awt.event.*;

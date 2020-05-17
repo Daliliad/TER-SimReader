@@ -1,10 +1,16 @@
 package fr.uvsq.FCNBDT;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.Action;
+import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -18,6 +24,10 @@ public class MenuBar extends JMenuBar {
     JMenuItem openFileMenu;
     JMenuItem closeFileMenu;
     
+    JMenu menuLegende;
+    JMenuItem afficheLegende;
+    JFrame legende;
+    
     VideoCommands videoButton;
 
     public MenuBar(VideoCommands videoButton) {
@@ -28,8 +38,10 @@ public class MenuBar extends JMenuBar {
         initCloseFileMenu();
         fileMenu.add(openFileMenu);
         fileMenu.add(closeFileMenu);
-
         this.add(fileMenu);
+        
+        initLegende();
+        this.add(menuLegende);
     }
     
     private void initOpenFileMenu() {
@@ -73,5 +85,25 @@ public class MenuBar extends JMenuBar {
             }
 
         });
+    }
+    
+    private void initLegende() {
+        menuLegende = new JMenu("Légende");
+        afficheLegende = new JMenuItem("Ouvrir Légende");
+        menuLegende.add(afficheLegende);
+        afficheLegende.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                legende.setVisible(true);
+                legende.toFront();
+            }
+        });
+        legende = new JFrame();
+        legende.setPreferredSize(new Dimension(300, 300));
+        legende.add(videoButton.getLegend());
+        legende.setTitle("Légende");
+        legende.pack();
+        legende.setResizable(false);
+        legende.setLocationRelativeTo( null );
     }
 }

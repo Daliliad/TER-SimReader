@@ -12,7 +12,7 @@ public enum CellType {
     SQUARE(0, new Dimension(26,26), 0.4, 5) {
         @Override
         public void paintBoard(Graphics2D g2d,
-                Dimension d, double zoom, Point selection,
+                double zoom, Point selection,
                 int[] matrice, int width, int length, int[] colors, BufferedImage[] icones) {
             if(matrice != null && matrice.length == width*length && colors != null)
             {
@@ -71,11 +71,32 @@ public enum CellType {
             int j = p.x/taille;
             return new Point(i,j);
         }
+
+        @Override
+        public void paintLegendElement(Graphics2D g2d, int color,
+                BufferedImage icone) {
+            int scale = defDimension.height;
+            int xP, yP;
+            xP = 0;
+            yP = 0;
+            g2d.setColor(new Color(color));
+            g2d.fillRect(xP, yP, scale, scale);
+            g2d.setColor(Color.black);
+            g2d.drawRect(xP, yP, scale, scale);
+            xP += scale + 10;
+            g2d.setColor(new Color(color));
+            if(icone!=null)
+                g2d.drawImage(icone,xP,yP,scale,scale,null);
+            else
+                g2d.fillRect(xP, yP, scale, scale);
+            g2d.setColor(Color.black);
+            g2d.drawRect(xP, yP, scale, scale);
+        }
     },
     HEXAGONE(1, new Dimension(24,28), 0.4, 5) {
         @Override
         public void paintBoard(Graphics2D g2d,
-                Dimension d, double zoom, Point selection,
+                double zoom, Point selection,
                 int[] matrice, int width, int length, int[] colors, BufferedImage[] icones) {
             int xP[] = new int[6];
             int yP[] = new int[6];
@@ -182,6 +203,37 @@ public enum CellType {
                 j = j/2;
             return new Point(i, j);
         }
+
+        @Override
+        public void paintLegendElement(Graphics2D g2d, int color,
+                BufferedImage icone) {
+            int xP[] = new int[6];
+            int yP[] = new int[6];
+            int xScale = defDimension.width/2;
+            int yScale = defDimension.height/4;
+            yP[5]=0;
+            yP[0]=yP[4]=yScale;
+            yP[1]=yP[3]=3*yScale;
+            yP[2]=4*yScale;
+            
+            xP[0]=xP[1]=0;
+            xP[2]=xP[5]=xScale;
+            xP[3]=xP[4]=2*xScale;
+            g2d.setColor(new Color(color));
+            g2d.fillPolygon(xP,yP,6);
+            g2d.setColor(Color.black);
+            g2d.drawPolygon(xP, yP, 6);
+            for (int i = 0; i < 6; i++) {
+                xP[i] += 2*xScale + 10;
+            }
+            g2d.setColor(new Color(color));
+            if(icone!=null)
+                g2d.drawImage(icone,xP[0],yP[5],2*xScale,4*yScale,null);
+            else
+                g2d.fillPolygon(xP,yP,6);
+            g2d.setColor(Color.black);
+            g2d.drawPolygon(xP, yP, 6);
+        }
     };
 
     public final int i;
@@ -200,8 +252,9 @@ public enum CellType {
 
 
     public abstract void paintBoard(Graphics2D g2d,
-            Dimension panelDimension, double zoom, Point selection,
+            double zoom, Point selection,
             int[] matrice, int width, int length, int[] colors, BufferedImage[] icones);
+    public abstract void paintLegendElement(Graphics2D g2d, int color, BufferedImage icones);
 
     public abstract Dimension getBoardDimension(int width, int length, double zoom);
     

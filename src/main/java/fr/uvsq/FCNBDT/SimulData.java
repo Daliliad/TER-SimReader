@@ -17,17 +17,6 @@ public class SimulData {
     public SimulData() throws IOException {
         isFilled = false;
         this.noData();
-        /*reader = new Reader("traces/incendie/trace3.log");
-        matrice = new int[reader.getLength()*reader.getWidth()];
-        colors = reader.getColors();
-        for(int i=0;i<colors.length;i++) {
-            System.out.println(i+" : "+colors[i]);
-        }
-        width = reader.getWidth();
-        length = reader.getLength();
-        cellType = reader.getCellType();
-
-        reader.readNext(matrice);*/
     }
     
     public void resetData(String path) throws IOException {

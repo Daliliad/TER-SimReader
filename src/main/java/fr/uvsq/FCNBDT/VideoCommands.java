@@ -29,12 +29,17 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import fr.uvsq.FCNBDT.display.Legend;
+import fr.uvsq.FCNBDT.display.SimulBoard;
 import fr.uvsq.FCNBDT.display.Slider;
+import fr.uvsq.FCNBDT.display.TextPrompt;
 
 public class VideoCommands extends JPanel {
     private SimulData simul;
     private SimulBoard board;
     private LogsPanel logs;
+    
+    private Legend legend;
     
     private JPanel zoomPanel;
     private JButton zoomIn;
@@ -60,8 +65,7 @@ public class VideoCommands extends JPanel {
 
     private JTextField enterSpeed;
     private JLabel ms;
-    
-    private JLabel descriptive; 
+    private JLabel descriptive;
 
     private Slider slider;
 
@@ -76,6 +80,7 @@ public class VideoCommands extends JPanel {
         super();
         this.simul = sd;
         this.board = b;
+        this.legend = new Legend(this.board.getBoard());
         this.logs = l;
         this.infoPosition = infoPosition;
         timer = new Timer();
@@ -380,6 +385,8 @@ public class VideoCommands extends JPanel {
         .setTitle(simul.getReader().getPath());
         jumpToDeselect.setVisible(false);
         board.jumpToDeselect();
+        
+        legend.setLegend(simul.getReader().getPath());
     }
     
     public void noFile() {
@@ -394,6 +401,11 @@ public class VideoCommands extends JPanel {
         jumpToDeselect.setVisible(false);
         simul.noData();
         board.noBoard();
+        legend.noLegend();
+    }
+    
+    public Legend getLegend() {
+        return legend;
     }
 
     public void enterTime() {

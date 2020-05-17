@@ -1,4 +1,4 @@
-package fr.uvsq.FCNBDT;
+package fr.uvsq.FCNBDT.display;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 
-import fr.uvsq.FCNBDT.display.Board;
+import fr.uvsq.FCNBDT.SimulData;
 
 public class SimulBoard extends JPanel {
     

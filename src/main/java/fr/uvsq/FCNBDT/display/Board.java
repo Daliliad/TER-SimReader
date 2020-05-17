@@ -12,7 +12,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -52,49 +54,18 @@ public class Board extends JPanel{
         AffineTransform affineTrans = g2d.getTransform();
         affineTrans.scale(zoom, zoom);
         g2d.setTransform(affineTrans);
-        Dimension d = new Dimension();
-        this.getSize(d);
         g2d.setStroke((Stroke) new BasicStroke(1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
         if (isFilled)
-            type.paintBoard(g2d, d, zoom, selection, matrice, width, length, colors, icones);
+            type.paintBoard(g2d, zoom, selection, matrice, width, length, colors, icones);
     }
-
-    /*
-	private void drawCells(Graphics2D g2d) {
-		Dimension d = new Dimension();
-		g2d.setColor(Color.black);
-		this.getSize(d);
-		for(int i = 0; i <= width; i++) {
-			g2d.drawLine(i*d.height/length+(d.width-d.height)/2, 0, i*d.height/length+(d.width-d.height)/2, d.height);
-		}
-		for(int i = 0; i <= length; i++) {
-			g2d.drawLine((d.width-d.height)/2, i*d.height/length, d.width-(d.width-d.height)/2, i*d.height/length);
-		}
-	}
-     */
-    /*
-    public void setWidth(int width) {
-        this.width = width;
-        this.setPreferredSize();
+    
+    public void paintLegendElement(Graphics2D g2d, int indice) {
+        type.paintLegendElement(g2d, colors[indice], icones[indice]);
     }
-
-    public void setLength(int length) {
-        this.length = length;
-        this.setPreferredSize();
-    }*/
 
     public void setMatrice(int[] matrice) {
         this.matrice = matrice;
     }
-/*
-    public void setColors(int[] colors) {
-        this.colors = colors;
-    }
-
-    public void setCellType(CellType type) {
-        this.type = type;
-        this.setPreferredSize();
-    }*/
 
     public void filled(SimulData data) {
         this.isFilled = true;
@@ -125,10 +96,6 @@ public class Board extends JPanel{
         this.revalidate();
         this.repaint();
     }
-
-    /*public void rebootZoom() {
-        this.zoom = 1;
-    }*/
 
     private void setIcones(String dir) {
         icones = new BufferedImage[colors.length];
