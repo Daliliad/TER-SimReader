@@ -210,7 +210,7 @@ public class VideoCommands extends JPanel {
                     }
                     if(simul.getReader().readExactTime(simul.getMatrice(), ((JSlider)event.getSource()).getValue()) != -1) {
                         if(simul.getReader().logExist(simul.getReader().getT()))
-                            logs.addTextLogs(simul.getReader().getLog(simul.getReader().getT()));
+                            logs.addTextLogs(simul.getReader().getT(), simul.getReader().getLog(simul.getReader().getT()));
                         board.getBoard().setMatrice(simul.getMatrice());
                         board.getBoard().revalidate();
                         board.getBoard().repaint();
