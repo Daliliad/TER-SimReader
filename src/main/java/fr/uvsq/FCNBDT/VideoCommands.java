@@ -452,7 +452,7 @@ public class VideoCommands extends JPanel {
                     try {
                         int val = Integer.parseInt(enterSpeed.getText());
                         if (val > 0 && val < 60000) {
-                            timeInterval = Integer.parseInt(enterSpeed.getText());
+                            timeInterval = Integer.parseInt(enterSpeed.getText().trim());
                             descriptive.setText("Le temps d'intervalle est de: " + timeInterval + " ms");
                             if (playOrPause.getText().equals(PAUSE_STRING)) {
                                     playOrPause.doClick();
@@ -500,7 +500,7 @@ public class VideoCommands extends JPanel {
                     i = 0;
                 } else {
                     try {
-                        int val = Integer.parseInt(enterJumpI.getText());
+                        int val = Integer.parseInt(enterJumpI.getText().trim());
                         if (val >= 0 && val < simul.getWidth()) {
                             i = val;
                         } else {
@@ -518,7 +518,7 @@ public class VideoCommands extends JPanel {
                     j = 0;
                 } else {
                     try {
-                        int val = Integer.parseInt(enterJumpJ.getText());
+                        int val = Integer.parseInt(enterJumpJ.getText().trim());
                         if (val >= 0 && val < simul.getLength()) {
                             j = val;
                         } else {
