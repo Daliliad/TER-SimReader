@@ -32,7 +32,10 @@ public class LogsPanel extends JPanel {
     }
 
     private void initLogs() {
-        logs = new JTextPane(){
+        logs = new JTextPane();
+        logs.setEditable(false);
+
+        scrlogs = new JScrollPane(logs){
             private Dimension getCustomDimension() {
                 return new Dimension(this.getParent().getWidth(),this.getParent().getHeight()-infoHeight);
             }
@@ -49,15 +52,15 @@ public class LogsPanel extends JPanel {
                 return getCustomDimension();
             }
         };
-        logs.setEditable(false);
-
-        scrlogs = new JScrollPane(logs);
         scrlogs.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     }
 
     private void initInfos() {
         //Second champ pour les infos//
-        infos = new JTextPane() {
+        infos = new JTextPane();
+        infos.setEditable(false);
+
+        scrinfo = new JScrollPane(infos) {
             private Dimension getCustomDimension() {
                 return new Dimension(this.getParent().getWidth(), infoHeight);
             }
@@ -74,9 +77,6 @@ public class LogsPanel extends JPanel {
                 return getCustomDimension();
             }
         };
-        infos.setEditable(false);
-
-        scrinfo = new JScrollPane(infos);
         scrinfo.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrinfo.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrinfo.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);

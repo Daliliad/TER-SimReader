@@ -71,7 +71,7 @@ public class MenuBar extends JMenuBar {
                         JOptionPane.showMessageDialog(new JFrame(), warning);
                     }
                 } else {
-                    System.out.println("No Selection ");
+                    System.out.println("Aucune Sélection");
                 }
             }
 
