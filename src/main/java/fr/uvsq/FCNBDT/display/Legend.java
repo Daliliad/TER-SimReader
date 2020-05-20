@@ -33,13 +33,16 @@ public class Legend extends JPanel {
     private Map<Integer, String> nomsEtats;
     
     public Legend(Board board) {
+        super();
         this.board = board;
+        this.setLayout(new GridLayout(1,1));
         etatsCellules = new ArrayList<>();
         nomsEtats = new HashMap<Integer, String>();
         this.content = new JPanel();
         this.scrContent = new JScrollPane(content);
         scrContent.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrContent.setBorder(new EmptyBorder(2, 2, 2, 2));
+        
         gridConstraint = new GridBagConstraints();
         gridConstraint.fill = GridBagConstraints.HORIZONTAL;
         gridConstraint.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -48,9 +51,8 @@ public class Legend extends JPanel {
         gridConstraint.weightx = 1;
         gridConstraint.weighty = 0;
         gridConstraint.ipadx = 4;
+        
         content.setLayout(new GridBagLayout());
-        this.setPreferredSize(new Dimension(300, 300));
-        scrContent.setPreferredSize(new Dimension(280, 255));
         this.add(scrContent);
         this.noLegend();
     }

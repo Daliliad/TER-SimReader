@@ -1,6 +1,7 @@
 package fr.uvsq.FCNBDT;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -15,44 +16,87 @@ public class LogsPanel extends JPanel {
 
     JTextPane infos;
     JScrollPane scrinfo;
+    
+    private final int infoHeight = 70;
 
-    public LogsPanel(int width) {
+    public LogsPanel() {
         super();
-
         this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(width, 425));
+        //this.setPreferredSize(new Dimension(width, 425));
 
-        initLogs(width);
+        initLogs();
         this.add(scrlogs);
-        initInfos(width);
+        initInfos();
         this.add(scrinfo, BorderLayout.NORTH);
 
     }
 
-    private void initLogs(int width) {
-        logs = new JTextPane();
-        /*logs.setText("test test test test \n"
-                + "test test test test \n"
-                + "test \n");*/
-        logs.setPreferredSize(new Dimension(width, 320));
+    private void initLogs() {
+        logs = new JTextPane(){
+            private Dimension getCustomDimension() {
+                return new Dimension(this.getParent().getWidth(),this.getParent().getHeight()-infoHeight);
+            }
+            @Override
+            public Dimension getPreferredSize() {
+                return getCustomDimension();
+            }
+            @Override
+            public Dimension getMinimumSize() {
+                return getCustomDimension();
+            }
+            @Override
+            public Dimension getMaximumSize() {
+                return getCustomDimension();
+            }
+        };
         logs.setEditable(false);
 
         scrlogs = new JScrollPane(logs);
         scrlogs.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scrlogs.setPreferredSize(new Dimension(width, 320));
     }
 
-    private void initInfos(int width) {
+    private void initInfos() {
         //Second champ pour les infos//
-        infos = new JTextPane();
-        infos.setPreferredSize(new Dimension(width, 100));
+        infos = new JTextPane() {
+            private Dimension getCustomDimension() {
+                return new Dimension(this.getParent().getWidth(), infoHeight);
+            }
+            @Override
+            public Dimension getPreferredSize() {
+                return getCustomDimension();
+            }
+            @Override
+            public Dimension getMinimumSize() {
+                return getCustomDimension();
+            }
+            @Override
+            public Dimension getMaximumSize() {
+                return getCustomDimension();
+            }
+        };
         infos.setEditable(false);
 
         scrinfo = new JScrollPane(infos);
         scrinfo.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scrinfo.setPreferredSize(new Dimension(width, 100));
         scrinfo.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrinfo.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+    }
+    
+    private Dimension getCustomDimension() {
+        return new Dimension(this.getParent().getWidth(),this.getParent().getHeight()-VideoCommands.INFO_POSITION_PANEL_HEIGHT);
+    }
+    
+    @Override
+    public Dimension getPreferredSize() {
+        return getCustomDimension();
+    }
+    @Override
+    public Dimension getMinimumSize() {
+        return getCustomDimension();
+    }
+    @Override
+    public Dimension getMaximumSize() {
+        return getCustomDimension();
     }
 
     public JTextPane getLogs() {

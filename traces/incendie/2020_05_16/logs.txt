@@ -1,0 +1,36 @@
+4 Nombre de feux simultanés entre 5 et 10
+7 Nombre de feux simultanés entre 0 et 5
+8 Nombre de feux simultanés entre 5 et 10
+11 Nombre de feux simultanés entre 10 et 15
+13 Nombre de feux simultanés entre 20 et 25
+15 Nombre de feux simultanés entre 25 et 30
+17 Nombre de feux simultanés entre 20 et 25
+21 Nombre de feux simultanés entre 25 et 30
+22 Nombre de feux simultanés entre 30 et 35
+23 Nombre de feux simultanés entre 35 et 40
+24 Nombre de feux simultanés entre 45 et 50
+25 Nombre de feux simultanés entre 50 et 55
+26 Nombre de feux simultanés entre 45 et 50
+27 Nombre de feux simultanés entre 50 et 55
+31 Nombre de feux simultanés entre 60 et 65
+32 Le pompier 0 est mort en (26;13).
+33 Nombre de feux simultanés entre 65 et 70
+33 Le pompier 0 est mort en (29;19).
+34 Le pompier 1 est mort en (31;22).
+35 Nombre de feux simultanés entre 75 et 80
+36 Nombre de feux simultanés entre 85 et 90
+37 Nombre de feux simultanés entre 75 et 80
+39 Nombre de feux simultanés entre 70 et 75
+40 Nombre de feux simultanés entre 55 et 60
+43 Nombre de feux simultanés entre 50 et 55
+44 Nombre de feux simultanés entre 45 et 50
+46 Nombre de feux simultanés entre 50 et 55
+47 Nombre de feux simultanés entre 55 et 60
+48 Nombre de feux simultanés entre 50 et 55
+49 Nombre de feux simultanés entre 55 et 60
+51 Nombre de feux simultanés entre 60 et 65
+52 Nombre de feux simultanés entre 55 et 60
+54 Nombre de feux simultanés entre 50 et 55
+56 Nombre de feux simultanés entre 45 et 50
+59 Nombre de feux simultanés entre 50 et 55
+60 Nombre de feux simultanés entre 45 et 50

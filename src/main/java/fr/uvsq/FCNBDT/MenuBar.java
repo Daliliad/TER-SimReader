@@ -2,6 +2,7 @@ package fr.uvsq.FCNBDT;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
@@ -99,11 +100,12 @@ public class MenuBar extends JMenuBar {
             }
         });
         legende = new JFrame();
+        legende.setLayout(new GridLayout(1, 1));
         legende.setPreferredSize(new Dimension(300, 300));
+        legende.setMinimumSize(new Dimension(200, 100));
         legende.add(videoButton.getLegend());
         legende.setTitle("Légende");
         legende.pack();
-        legende.setResizable(false);
         legende.setLocationRelativeTo( null );
     }
 }

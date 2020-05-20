@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import fr.uvsq.FCNBDT.display.SimulBoard;
 
@@ -16,7 +17,6 @@ public enum Main {
     public void run() throws IOException {
         SimulData data = new SimulData();
         JFrame frame = new JFrame();
-        //frame.setTitle(data.getReader().getPath());
         frame.setTitle("Visualisateur d'Automates cellulaires");
         
         frame.setLayout(new BorderLayout());
@@ -25,20 +25,35 @@ public enum Main {
         int widthBoard = (int) (frameDimension.width*0.7);
 
         SimulBoard b = new SimulBoard(widthBoard);
-        //b.resetBoard(data);
-        //b.setIcones("traces/jeuvie/");
         
-        JPanel rightPanel = new JPanel();
+        JPanel rightPanel = new JPanel() {
+            private Dimension getCustomDimension() {
+                if(getParent().getWidth()<700)
+                    return new Dimension(300,this.getParent().getHeight()-VideoCommands.BUTTON_PANEL_HEIGHT);
+                return new Dimension(350,this.getParent().getHeight()-VideoCommands.BUTTON_PANEL_HEIGHT);
+            }
+            
+            @Override
+            public Dimension getPreferredSize() {
+                return getCustomDimension();
+            }
+            @Override
+            public Dimension getMinimumSize() {
+                return getCustomDimension();
+            }
+            @Override
+            public Dimension getMaximumSize() {
+                return getCustomDimension();
+            }
+        };
         rightPanel.setLayout(new BorderLayout());
-        rightPanel.setPreferredSize(new Dimension(frameDimension.width-widthBoard-20, 460));
         /* LOGS */
-        LogsPanel texts = new LogsPanel(frameDimension.width-widthBoard-20);
+        LogsPanel texts = new LogsPanel();
         rightPanel.add(texts, BorderLayout.SOUTH);
         
         /* Buttons and Slider */
         JPanel infoPosition = new JPanel();
-        infoPosition.setPreferredSize(new Dimension(frameDimension.width-widthBoard-20, 40));
-        VideoCommands videoCommands = new VideoCommands(data, b, texts, infoPosition, frameDimension.width);
+        VideoCommands videoCommands = new VideoCommands(data, b, texts, infoPosition);
         videoCommands.traitement();
         rightPanel.add(infoPosition, BorderLayout.NORTH);
 
@@ -47,15 +62,12 @@ public enum Main {
         
         frame.setJMenuBar(menu);
 
-
         frame.add(rightPanel,BorderLayout.EAST);
         frame.add(b, BorderLayout.WEST);
-        //frame.add(buttons,BorderLayout.SOUTH);
         frame.add(videoCommands,BorderLayout.SOUTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(650,300));
         frame.pack();
-        //frame.setSize(1100, 600);
-        frame.setResizable(false);
         frame.setLocationRelativeTo( null );
         frame.setVisible(true);
     }

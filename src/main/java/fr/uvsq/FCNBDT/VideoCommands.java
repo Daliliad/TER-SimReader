@@ -74,9 +74,12 @@ public class VideoCommands extends JPanel {
     
     private static final String PLAY_STRING = "play";
     private static final String PAUSE_STRING = "pause";
+    
+    public static final int BUTTON_PANEL_HEIGHT = 60;
+    public static final int INFO_POSITION_PANEL_HEIGHT = 43;
 
     public VideoCommands(SimulData sd, SimulBoard b, LogsPanel l,
-            JPanel infoPosition, int frameWidth) throws IOException {
+            JPanel infoPosition) throws IOException {
         super();
         this.simul = sd;
         this.board = b;
@@ -94,23 +97,21 @@ public class VideoCommands extends JPanel {
         enterJumpJ = new JTextField();
         jumpJ = new JLabel("j :");
 
-        initButtons(frameWidth);
-        initSlider(frameWidth);
+        initButtons();
+        initSlider();
         this.initInfoPosition();
 
-        this.setPreferredSize(new Dimension(frameWidth,75));
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         this.timeInterval = 1000;
 
-        //logs.rebootLogs(simul.getReader().getLog(-1));
         logs.noLogs();
 
         /*BufferedImage myPicture = ImageIO.read(new File(""));
        playOrPause = new JButton("Shopping", new ImageIcon(myPicture));*/
     }
 
-    private void initButtons(int frameWidth) {
+    private void initButtons() {
         playOrPause = new JButton(PLAY_STRING);
         next = new JButton(">");
         previous = new JButton("<");
@@ -152,7 +153,6 @@ public class VideoCommands extends JPanel {
         board.addZoomLayer(zoomPanel);
         
         buttons = new JPanel();
-        buttons.setPreferredSize(new Dimension(frameWidth,50));
         buttons.setLayout(new FlowLayout());
         buttons.add(begin);
         buttons.add(slow);
@@ -168,8 +168,26 @@ public class VideoCommands extends JPanel {
     
     private void initInfoPosition() {
         infoPosition.setLayout(new BorderLayout());
+        infoPosition.setOpaque(false);
         
-        currentPosition = new JLabel();
+        currentPosition = new JLabel() {
+            private Dimension getCustomDimension() {
+                return new Dimension(this.getParent().getWidth(),INFO_POSITION_PANEL_HEIGHT);
+            }
+            @Override
+            public Dimension getPreferredSize() {
+                return getCustomDimension();
+            }
+            @Override
+            public Dimension getMinimumSize() {
+                return getCustomDimension();
+            }
+            @Override
+            public Dimension getMaximumSize() {
+                return getCustomDimension();
+            }
+        };
+        currentPosition.setOpaque(false);
         currentPosition.setText("");
         infoPosition.add(currentPosition, BorderLayout.WEST);
         JPanel jump = new JPanel();
@@ -202,9 +220,8 @@ public class VideoCommands extends JPanel {
         board.getBoard().addMouseMotionListener(mouseS);
     }
 
-    private void initSlider(int frameWidth) {
+    private void initSlider() {
         slider = new Slider(simul.isFilled()?simul.getReader().getTmax():0);
-        slider.setPreferredSize(new Dimension((int) (frameWidth*0.8),20));
         slider.addChangeListener(new ChangeListener(){
             public void stateChanged(ChangeEvent event){
                 try {
@@ -226,6 +243,23 @@ public class VideoCommands extends JPanel {
             }
         });
     }
+    
+    private Dimension getCustomDimension() {
+        return new Dimension(this.getParent().getWidth(),BUTTON_PANEL_HEIGHT);
+    }
+    
+    @Override
+    public Dimension getPreferredSize() {
+        return getCustomDimension();
+    }
+    @Override
+    public Dimension getMinimumSize() {
+        return getCustomDimension();
+    }
+    @Override
+    public Dimension getMaximumSize() {
+        return getCustomDimension();
+    }
 
     private void playOrPauseClick() {
         playOrPause.addActionListener(new ActionListener() {
@@ -245,15 +279,6 @@ public class VideoCommands extends JPanel {
 
                             @Override
                             public void run() {
-                                /*try {
-                                    simul.getReader().readNext(simul.getMatrice());
-                                } catch (IOException e1) {
-                                    // TODO Auto-generated catch block
-                                    e1.printStackTrace();
-                                }
-                                board.setMatrice(simul.getMatrice());
-                                board.revalidate();
-                                board.repaint();*/
                                 slider.setValue(slider.getValue()+1);
                             }
                         }, begin, timeInterval);

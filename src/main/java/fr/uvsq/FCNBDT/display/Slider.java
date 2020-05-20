@@ -46,7 +46,6 @@ public class Slider extends JSlider {
 
         this.initContentPopup();
         //Cursor cursor = new Cursor(Cursor.HAND_CURSOR);
-
         this.setUI(new VideoSliderUI(this));
         //this.setOrientation(SwingConstants.VERTICAL);
 

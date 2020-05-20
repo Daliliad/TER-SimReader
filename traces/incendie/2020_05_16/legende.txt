@@ -1,0 +1,9 @@
+0 herbe
+1 foret 
+2 foret dense
+3 feu
+4 roche
+5 route
+6 cendre
+7 eau
+11 pompier
