@@ -53,7 +53,7 @@ public class MenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                
                 chooser.setCurrentDirectory(new java.io.File("."));
-                chooser.setDialogTitle("Selectionner la trace a� simuler");
+                chooser.setDialogTitle("Selectionner la trace à simuler");
                 chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(null, "log");
                 chooser.setFileFilter(filter);

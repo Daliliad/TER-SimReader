@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Paths;
@@ -40,7 +41,9 @@ public class Reader {
 				Paths.get(Paths.get(path).toAbsolutePath().getParent().toString(),
 						"logs.txt").toString())
 				).exists()) {
-			l = new BufferedReader(new FileReader(f));
+			l = new BufferedReader(
+			        new InputStreamReader(
+			                new FileInputStream(f), "UTF8"));
 			logs = new HashMap<Integer, String>();
 			while((s = l.readLine()) != null) {
 				int i = 0;
