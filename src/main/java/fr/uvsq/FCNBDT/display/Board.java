@@ -41,6 +41,7 @@ public class Board extends JPanel{
     public Board() {
         super();
         this.setPreferredSize();
+        this.setOpaque(false);
         zoom = 1;
         selection = new Point(-1, -1);
         isFilled = false;
@@ -95,6 +96,10 @@ public class Board extends JPanel{
         this.icones = null;
         this.revalidate();
         this.repaint();
+    }
+    
+    public boolean isFilled() {
+        return isFilled;
     }
 
     private void setIcones(String dir) {

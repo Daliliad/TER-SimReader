@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import fr.uvsq.FCNBDT.display.Board;
 import fr.uvsq.FCNBDT.display.Legend;
 import fr.uvsq.FCNBDT.display.SimulBoard;
 import fr.uvsq.FCNBDT.display.Slider;
@@ -432,6 +433,10 @@ public class VideoCommands extends JPanel {
     public Legend getLegend() {
         return legend;
     }
+    
+    public Board getBoard() {
+        return board.getBoard();
+    }
 
     public void enterTime() {
         enterSpeed.setColumns(4);
@@ -578,7 +583,6 @@ public class VideoCommands extends JPanel {
 
         this.add(slider);
         this.add(buttons);
-       
     }
 
 }
