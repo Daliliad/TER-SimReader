@@ -231,12 +231,17 @@ public class VideoCommands extends JPanel {
                         JOptionPane.showMessageDialog(new JFrame(), warning);
                         return;
                     }
-                    if(simul.getReader().readExactTime(simul.getMatrice(), ((JSlider)event.getSource()).getValue()) != -1) {
-                        if(simul.getReader().logExist(simul.getReader().getT()))
+                    if (simul.getReader().readExactTime(simul.getMatrice(), ((JSlider)event.getSource()).getValue()) != -1) {
+                        if (simul.getReader().logExist(simul.getReader().getT()))
                             logs.addTextLogs(simul.getReader().getT(), simul.getReader().getLog(simul.getReader().getT()));
                         board.getBoard().setMatrice(simul.getMatrice());
                         board.getBoard().revalidate();
                         board.getBoard().repaint();
+                        if (((JSlider)event.getSource()).getValue()==((JSlider)event.getSource()).getMaximum()) {
+                            if (playOrPause.getText().equals("pause")) {
+                                playOrPause.doClick();
+                            }
+                        }
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -277,7 +282,6 @@ public class VideoCommands extends JPanel {
                     if (playOrPause.getText().equals(PLAY_STRING)) {
                         playOrPause.setText(PAUSE_STRING);
                         timer.schedule(new TimerTask() {
-
                             @Override
                             public void run() {
                                 slider.setValue(slider.getValue()+1);
