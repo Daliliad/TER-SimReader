@@ -12,7 +12,7 @@ public class LegendReader {
         HashMap<Integer, String> legend = new HashMap<>();
         File f = new File(path);
         if(f.exists()) {
-            try (Scanner s = new Scanner(f,"UTF8")) {
+            try (Scanner s = new Scanner(f,"UTF-8")) {
                 String str;
                 String decoupe[];
                 int i;
@@ -27,7 +27,6 @@ public class LegendReader {
             } catch (FileNotFoundException e) {
                 System.err.println(e.getMessage());
             }
-            System.out.println(legend);
         }
         return legend;
     }

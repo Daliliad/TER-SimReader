@@ -142,6 +142,7 @@ public class MenuBar extends JMenuBar {
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier image .png", "png");
                 chooser.setFileFilter(filter);
                 if (chooser.showSaveDialog(null)==JFileChooser.APPROVE_OPTION) {
+                    currentDirectory = chooser.getCurrentDirectory();
                     File f = chooser.getSelectedFile();
                     BufferedImage image = new BufferedImage(board.getWidth(), board.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
                     Graphics g = image.getGraphics();

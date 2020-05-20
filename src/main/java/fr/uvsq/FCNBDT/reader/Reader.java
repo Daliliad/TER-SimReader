@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class Reader {
 				).exists()) {
 			l = new BufferedReader(
 			        new InputStreamReader(
-			                new FileInputStream(f), "UTF8"));
+			                new FileInputStream(f), StandardCharsets.UTF_8));
 			logs = new HashMap<Integer, String>();
 			while((s = l.readLine()) != null) {
 				int i = 0;

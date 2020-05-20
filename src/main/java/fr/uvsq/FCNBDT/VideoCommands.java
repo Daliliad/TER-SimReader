@@ -120,7 +120,7 @@ public class VideoCommands extends JPanel {
         slow = new JButton("dec.");
         zoomIn = new JButton("+");
         zoomOut = new JButton("-");
-        jumpTo = new JButton("saut");
+        jumpTo = new JButton("focus");
         jumpToDeselect = new JButton("X");
         changeSpeed = new JButton("modif.");
         begin = new JButton("debut");
